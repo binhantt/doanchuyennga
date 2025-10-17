@@ -3,9 +3,8 @@ import { buildGroupedRoutes } from "../../../shared";
 import UserController from "../Controller/UserController";
 import AthuController from "../Controller/AthuController";
 import DisheController from "../Controller/DishesController";
-
+import OrderCotroller from "../Controller/OrderCotroller";
 const router = Router();
-
 export const AdminRouter = buildGroupedRoutes(router, [
   {
     basePath: "/users",
@@ -54,6 +53,22 @@ export const AdminRouter = buildGroupedRoutes(router, [
         method: "put",  
         path: "/update",
         handler: DisheController.Update,
+      }, 
+      
+    ]
+  },
+  {
+    basePath: "/orders",
+    routes: [
+      {
+        method: "get",  
+        path : "/getall",
+        handler  : OrderCotroller.getAllOrders,
+      },
+      {
+        method: "post",  
+        path : "/create",
+        handler  : OrderCotroller.CreateOrder,
       }
     ]
   }
