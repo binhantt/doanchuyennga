@@ -67,9 +67,10 @@ export const AdminRouter = buildGroupedRoutes(router, [
       },
       {
         method: "post",  
-        path : "/create",
-        handler  : OrderCotroller.CreateOrder,
+        path : "/create_food",
+        handler  : OrderCotroller.CreateOrderfood,
       }
+      
     ]
   }
 ]);

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "migrate": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:latest",
-    "make": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:make", 
+    "make": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:make",
     "migrate:rollback": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:rollback"
   },
   "keywords": [],
@@ -24,6 +24,7 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",

@@ -19,7 +19,7 @@ class OrderController {
             return res.status(500).json({ error: error.message });
         }
     };
-    CreateOrder = async (req: Request, res: Response): Promise<Response> => {
+    CreateOrderfood= async (req: Request, res: Response): Promise<Response> => {
         try {
             const { userId, user, order, dishes } = req.body;
             let finalUserId = userId;

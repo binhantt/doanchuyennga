@@ -25,6 +25,7 @@ export class LoginUserUseCase {
                     role: user.role,
                     phoneNumber: user.phoneNumber,
                     address: user.address,
+                    token : accessToken,
                 },
 
             };
