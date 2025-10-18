@@ -8,6 +8,7 @@ class AuthController {
    login  = async(req: Request, res: Response): Promise<Response> =>{
     try {
       const { email, password } = req.body;
+
       const userRepo = new UserRepository(db);
       const tokenService = new TokenService();
       const loginUseCase = new LoginUserUseCase(userRepo, tokenService);    

@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
     "migrate": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:latest",
     "make": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:make",
-    "migrate:rollback": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:rollback"
+    "rollback": "knex --knexfile ./src/infrastructure/db/knexfile.ts migrate:rollback"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +29,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
+    "migrate": "^2.1.0",
     "module-alias": "^2.2.3",
     "mysql2": "^3.15.2",
     "pg": "^8.16.3"

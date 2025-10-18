@@ -2,9 +2,19 @@ import { Knex } from "knex";
 import { Dishes } from "../../domain/entities/Dishes";
 export class GetUserUseCase {
     constructor(private db: Knex) { }
-  // Implementation of the use case to get user details
     async executeAll(): Promise<Dishes[]> {
-    const users = await this.db<Dishes>("Dishes").select("*");
-    return users;
+   const dishes = await this.db("Dishes as d")
+  .leftJoin("Categories as c", "d.category_id", "c.id")
+  .select(
+    "d.id",
+    "d.name",
+    "d.description",
+    "d.price",
+    "d.image_url",
+    "d.is_available",
+    "c.name as category_name"
+  );
+
+    return dishes;
   }
 }

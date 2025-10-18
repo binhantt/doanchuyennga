@@ -5,8 +5,8 @@ export class UserRepository {
     constructor(private db: Knex) {}
   async findByEmail(email: string): Promise<User > {
     const user = await this.db("users").where({ email }).first();
-    console.log(user);
-    if (!user) return null;
+    console.log(user ,email)
+    if( !user){ throw new Error( "eamil sai vui lòng nhập lai ")}
     return new User(
       user.id,
       user.username,

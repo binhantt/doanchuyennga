@@ -1,31 +1,36 @@
 <template>
   <div>
-    <label class="block text-sm font-medium text-gray-700 mb-1">{{ label }}</label>
+    <label v-if="label" class="block mb-1 text-sm font-medium text-gray-700">
+      {{ label }}
+    </label>
+
     <div class="relative">
-      <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">{{ icon }}</span>
+      <!-- Icon -->
+      <component
+        v-if="icon"
+        :is="icon"
+        class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg"
+      />
+
+      <!-- Input -->
       <input
         :type="type"
-        v-model="model"
         :placeholder="placeholder"
-        class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        :value="modelValue"
+        @input="$emit('update:modelValue', )"
+        class="w-full border border-gray-300 rounded-lg py-2 px-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
     </div>
   </div>
 </template>
 
-<script setup>
-import { computed } from 'vue';
-
-const props = defineProps({
+<script setup lang="ts">
+defineProps({
   label: String,
-  icon: String,
-  placeholder: String,
+  icon: Object,
   type: { type: String, default: "text" },
+  placeholder: String,
   modelValue: String,
 });
-const emit = defineEmits(["update:modelValue"]);
-const model = computed({
-  get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
-});
+defineEmits(["update:modelValue"]);
 </script>

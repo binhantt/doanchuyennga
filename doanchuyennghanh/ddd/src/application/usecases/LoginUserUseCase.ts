@@ -10,9 +10,10 @@ export class LoginUserUseCase {
     }
     async execute(email: string, password: string) {
         const user = await this.userRepository.findByEmail(email);
-
-        if (!user) throw new Error("Email không tồn tại.");
         if (!password) throw new Error("Mật khẩu không chính xác.");
+        if (user.role != "admin") {
+            throw new Error("không có quyền  truy cập vào trang admin ");
+        }
         const accessToken = this.tokenService.generateToken({ id: user.id, email: user.email, password: user.password });
         const refreshToken = this.tokenService.regenerateRefreshToken({ id: user.id, email: user.email, password: user.password });
         await this.userRepository.updateTokens(user.id, accessToken, refreshToken);
@@ -25,12 +26,12 @@ export class LoginUserUseCase {
                     role: user.role,
                     phoneNumber: user.phoneNumber,
                     address: user.address,
-                    token : accessToken,
+                    token: accessToken,
                 },
 
             };
-        }else{
-            return { user : "khong phai admin"}
+        } else {
+            return { user: "khong phai admin" }
         }
     }
 }

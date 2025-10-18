@@ -2,7 +2,7 @@
   <div class="min-h-screen flex">
     <LoginInfoPanel class="hidden lg:flex w-1/2" />
     <div class="w-full lg:w-1/2 flex items-center justify-center bg-gray-50">
-      <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-md">
+      <div class="w-full max-w-xl p-8 rounded-2xl ">
         <div class="text-center mb-6">
           <h2 class="text-2xl font-bold text-gray-800">Đăng Nhập Admin</h2>
           <p class="text-gray-500 text-sm mt-2">

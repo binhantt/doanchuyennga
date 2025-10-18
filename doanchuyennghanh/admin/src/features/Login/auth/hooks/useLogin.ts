@@ -8,7 +8,9 @@ export function useLogin() {
 
   const login = async (data: LoginRequest): Promise<LoginResponse | void> => {
     try {
+
       const res = await authApi.login(data);
+      console.log(data)
       if (res.token) {
         localStorage.setItem("admin_token", res.token);
         toast.success("Đăng nhập thành công!", { autoClose: 2000 });

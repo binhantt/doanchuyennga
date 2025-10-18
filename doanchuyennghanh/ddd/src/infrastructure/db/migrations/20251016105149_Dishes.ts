@@ -6,7 +6,6 @@ export async function up(knex: Knex): Promise<void> {
     table.string("name", 255).notNullable();
     table.text("description");
     table.decimal("price", 10, 2).notNullable();
-    table.string("category", 100);
     table.string("image_url", 500);
     table.boolean("is_available").defaultTo(true);
     table.timestamp("created_at").defaultTo(knex.fn.now());

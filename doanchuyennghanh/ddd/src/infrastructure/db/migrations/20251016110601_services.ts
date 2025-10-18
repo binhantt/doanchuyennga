@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string("name").notNullable();
     table.text("description");
     table.decimal("price", 10, 2);
-    table.string("category");
+    table.integer("category_id");
     table.string("image_url");
     table.boolean("is_available").defaultTo(true);
     table.timestamps(true, true);

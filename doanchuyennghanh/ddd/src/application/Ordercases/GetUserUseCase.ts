@@ -8,6 +8,7 @@ export class GetOrdersUseCase {
       .leftJoin("users as u", "o.user_id", "u.id")
       .leftJoin("order_dishes as od", "od.order_id", "o.id")
       .leftJoin("dishes as d", "od.dish_id", "d.id")
+      .leftJoin("categories as c", "d.category_id", "c.id")  // Added categories join
       .select(
         "o.id as orderId",
         "o.event_date",
@@ -27,7 +28,7 @@ export class GetOrdersUseCase {
         "od.price",
         "d.name as dishName",
         "d.description as dishDescription",
-        "d.category",
+        "c.name as category",  // Changed to use category name from categories table
         "d.image_url as imageUrl"
       );
 
