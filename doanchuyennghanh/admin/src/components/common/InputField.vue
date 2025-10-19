@@ -17,7 +17,7 @@
         :type="type"
         :placeholder="placeholder"
         :value="modelValue"
-        @input="$emit('update:modelValue', )"
+         @input="$emit('update:modelValue', $event.target.value)"
         class="w-full border border-gray-300 rounded-lg py-2 px-10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
     </div>

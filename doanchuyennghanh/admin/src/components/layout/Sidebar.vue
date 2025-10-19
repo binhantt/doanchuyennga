@@ -1,6 +1,5 @@
 <template>
   <div class="w-64 bg-blue-500 text-white flex flex-col">
-    <!-- Header -->
     <div class="flex items-center justify-center h-20 border-b border-blue-800">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
            fill="none" stroke="currentColor" stroke-width="2"
@@ -10,13 +9,10 @@
       </svg>
       <h1 class="text-2xl font-bold">AdminPanel</h1>
     </div>
-
-    <!-- Nav -->
     <nav class="flex-1 px-4 py-6">
       <ul>
         <template v-for="(item, index) in menuItems" :key="item.name">
           <SidebarSection v-if="item.section" :title="item.section" />
-
           <SidebarItem
             :item="item"
             :isActive="activeItem === item.name"
@@ -27,26 +23,34 @@
     </nav>
   </div>
 </template>
-
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { ICONS } from "../constants/icon";
 import SidebarItem from "../Sidebar/SidebarItem.vue";
 import SidebarSection from "../Sidebar/SidebarSection.vue";
 import type { SidebarItem as SidebarItemType } from "../types/Sidebar";
-
 const activeItem = ref("Dashboard");
-const setActiveItem = (name: string) => (activeItem.value = name);
+const setActiveItem = (name: string) => {
+  activeItem.value = name;
+  localStorage.setItem("activeItem", name); // 👉 Lưu lại vào localStorage
+};
+
+onMounted(() => {
+  const saved = localStorage.getItem("activeItem");
+  if (saved) {
+    activeItem.value = saved;
+  }
+});
 
 const menuItems: SidebarItemType[] = [
-  { name: "Dashboard", icon: ICONS.Dashboard, section: "QUẢN LÝ", path: "/dashboard" },
-  { name: "Người dùng", icon: ICONS.Users, path: "/users" },
-  { name: "Sản phẩm", icon: ICONS.Products, path: "/products" },
-  { name: "Đơn hàng", icon: ICONS.Orders, path: "/orders" },
-  { name: "Báo cáo", icon: ICONS.Reports, path: "/reports" },
-  { name: "Cài đặt", icon: ICONS.Settings, section: "CẤU HÌNH", path: "/settings" },
-  { name: "Tài khoản", icon: ICONS.Account, path: "/account" },
-  { name: "Đăng xuất", icon: ICONS.Logout, path: "/logout" },
+  { name: "Dashboard", icon: ICONS.Dashboard, section: "QUẢN LÝ", path: "/admin/dashboard" },
+  { name: "Người dùng", icon: ICONS.Users, path: "/admin/dashboard/users" },
+  { name: "Sản phẩm", icon: ICONS.Products, path: "/admin/dashboard/products" },
+  { name: "Đơn hàng", icon: ICONS.Orders, path: "/admin/dashboard/orders" },
+  { name: "Báo cáo", icon: ICONS.Reports, path: "/admin/dashboard/reports" },
+  { name: "Cài đặt", icon: ICONS.Settings, section: "CẤU HÌNH", path: "/admin/dashboard/settings" },
+  { name: "Tài khoản", icon: ICONS.Account, path: "/admin/dashboard/account" },
+  { name: "Đăng xuất", icon: ICONS.Logout, path: "/admin/dashboard/logout" },
 ];
 </script>
 

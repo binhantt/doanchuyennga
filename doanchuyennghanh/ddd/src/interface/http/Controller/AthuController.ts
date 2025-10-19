@@ -6,9 +6,9 @@ import { TokenService } from "../../../infrastructure/security/TokenService";
 
 class AuthController {
    login  = async(req: Request, res: Response): Promise<Response> =>{
-    try {
-      const { email, password } = req.body;
-
+     try {
+       const { email, password } = req.body;
+       console.log("Login attempt with email:", email);
       const userRepo = new UserRepository(db);
       const tokenService = new TokenService();
       const loginUseCase = new LoginUserUseCase(userRepo, tokenService);    
