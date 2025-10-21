@@ -8,6 +8,7 @@ export class Order {
     public guestCount: number,
     public totalAmount: number,
     public discountAmount: number,
+    
     public finalAmount: number,
     public status: 'pending' | 'confirmed' | 'cancelled' | 'completed',
     public createdAt: Date

@@ -6,9 +6,7 @@ const routes = [
   { path: '/', redirect: '/login' },
   ...adminRoutes  ,
   ...dashboardRouter,
-]
- // 🪄 Cập nhật tiêu đề tab khi chuyển route
- 
+] 
 export const router = createRouter({
   history: createWebHistory(), 
   routes, 

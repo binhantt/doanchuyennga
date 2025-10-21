@@ -8,12 +8,20 @@ import {
     BarChartOutlined,
     TeamOutlined,
  LoginOutlined, 
+   PlusOutlined ,
+   EditOutlined,
+   DeleteOutlined ,
+   RetweetOutlined, 
     DashboardOutlined, UserOutlined, ShoppingOutlined, FileTextOutlined, SettingOutlined, LogoutOutlined
 } from "@ant-design/icons-vue";
 
 export const ICONS = {
     Dashboard: DashboardOutlined,
+    Edit : EditOutlined, 
+    Delete : DeleteOutlined,
     Users: UserOutlined,
+    Plus : PlusOutlined,
+    Refresh : RetweetOutlined,
     Products: ShoppingOutlined,
     Orders: FileTextOutlined,
     Reports: FileTextOutlined,

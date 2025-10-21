@@ -39,7 +39,10 @@ class DisheController {
     };
     Update = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const updatedDish = await this.updateDishesUseCase.execute(req.body);
+       const id = parseInt(req.params.id, 10);
+        console.log(id)
+        console.log(req.body)
+      const updatedDish = await this.updateDishesUseCase.execute(id,req.body);
       if (!updatedDish) return res.status(404).json({ message: "Dish not found" });
       return res.status(200).json({  message: "Cập nhật món ăn thành công ✅",  data: updatedDish });
     } catch (error: any) {

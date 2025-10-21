@@ -4,6 +4,7 @@ import UserController from "../Controller/UserController";
 import AthuController from "../Controller/AthuController";
 import DisheController from "../Controller/DishesController";
 import OrderCotroller from "../Controller/OrderCotroller";
+import CategroyCotroller from "../Controller/CategroyCotroller";
 const router = Router();
 export const AdminRouter = buildGroupedRoutes(router, [
   {
@@ -51,12 +52,37 @@ export const AdminRouter = buildGroupedRoutes(router, [
       }, 
       {
         method: "put",  
-        path: "/update",
+        path: "/update/:id",
         handler: DisheController.Update,
       }, 
       
     ]
   },
+  {
+     basePath :  "/Categories",
+     routes : [
+       {
+          method : "get",
+          path : "/",
+           handler  : CategroyCotroller.GetALl ,
+       },
+       {
+          method : "post",
+          path : "/create",
+           handler  : CategroyCotroller.Creacte,
+       }, 
+      {
+          method : "delete",
+          path : "/delete/:id",
+           handler  : CategroyCotroller.delete,
+      },
+      {
+          method : "put",
+          path : "/update/:id",
+           handler  : CategroyCotroller.updated,
+      }
+     ]
+  } , 
   {
     basePath: "/orders",
     routes: [

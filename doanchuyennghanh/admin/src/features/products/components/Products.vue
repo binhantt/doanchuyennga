@@ -6,38 +6,53 @@
   >
     <ProductRow v-for="p in products" :key="p.id" :product="p" />
   </Table>
+  <!-- ProductModal emit 'save' với dữ liệu form; bắt ở handleSave -->
+  <ProductModal
+    :key="modalStore.isModalOpen ? (modalStore.editingProduct?.id || 'new') : 'closed'"
+    :isOpen="modalStore.isModalOpen"
+    :product="modalStore.editingProduct"
+    @close="modalStore.closeModal"
+    @save="handleSave"
+  />
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
+import { storeToRefs } from "pinia";
 import Table from "../../../components/common/Table.vue";
 import ProductRow from "../components/ProductRow.vue";
-import type { Product } from "../types";
-import { getProducts } from "../api/productsApi";
-
-const loading = ref(true);
-const products = ref<Product[]>([]);
+import ProductModal from "./ProductModal.vue";
+import { useProductsStore } from "../store/Store";
+import { useModal } from "../hooks/UserModal";
+import type { Product } from "../index";
+import {updateProduct, deleteProduct} from "../api/productsApi";
+const productsStore = useProductsStore();
+const modalStore = useModal();
+const { products, loading } = storeToRefs(productsStore);
 
 const columns = [
   { key: "check", title: "" },
+  { key: "id", title: "ID" },
   { key: "name", title: "Sản phẩm" },
-  { key: "sku", title: "Mã SKU" },
+  { key: "description", title: "Mô tả" },
   { key: "category", title: "Danh mục" },
-  { key: "stock", title: "Kho" },
-  { key: "price", title: "Giá" },
+  { key: "price",   title: "Giá" },
   { key: "status", title: "Trạng thái" },
   { key: "action", title: "Thao tác", align: "center" },
 ];
 
-// ✅ Fetch dữ liệu khi mount
-onMounted(async () => {
-  try {
-    loading.value = true;
-    products.value = await getProducts(); // lấy từ API đã chuẩn hóa
-  } catch (error) {
-    console.error("Lỗi khi tải sản phẩm:", error);
-  } finally {
-    loading.value = false;
+const handleSave = (product: Product ) => {
+    console.log(product)
+  if (product.id) {
+    const index = productsStore.products.findIndex(p => p.id === product.id);
+    productsStore.products[index] = {...productsStore.products[index], ...product};
+  } else {
+    productsStore.products.push(product);
   }
+  modalStore.closeModal();
+};
+
+onMounted(() => {
+  productsStore.fetchProducts();
 });
 </script>

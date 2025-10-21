@@ -11,7 +11,7 @@ export default [
     meta: { title: "Bảng điều khiển" ,  icon :  ICON_PATHS.Dashboard } , 
     children: [  
       ...home,
-       ...products
+      ...products
     ]
   }
 ]

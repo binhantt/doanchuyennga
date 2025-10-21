@@ -1,52 +1,60 @@
+<template>
+  <a-layout-header
+    class="flex justify-between items-center bg-white px-4 py-2 shadow-sm border-b border-gray-100"
+  >
+    <InputField
+      v-model="searchValue"
+      :icon="SearchOutlined"
+      placeholder="Tìm kiếm..."
+      class="w-64"
+    />
+    <div class="flex items-center gap-5">
+      <ButtonBadge :icon="BellOutlined" :count="5" @click="onBellClick" />
+    <ButtonBadge :icon="MessageOutlined" :count="3" @click="onMessageClick" />
+
+      <a-dropdown trigger="click">
+        <div class="flex items-center gap-2 cursor-pointer">
+          <a-avatar style="background-color: #1677ff">
+            <UserOutlined />
+          </a-avatar>
+          <div class="text-right hidden sm:block">
+            <p class="text-sm font-semibold text-gray-800 m-0">Admin</p>
+            <p class="text-xs text-gray-500 m-0">Quản trị viên</p>
+          </div>
+        </div>
+
+        <template #overlay>
+          <a-menu>
+            <a-menu-item key="profile">
+              <UserOutlined /> Hồ sơ
+            </a-menu-item>
+            <a-menu-item key="settings">
+              <SettingOutlined /> Cài đặt
+            </a-menu-item>
+            <a-menu-divider />
+            <a-menu-item key="logout" danger>
+              <LogoutOutlined /> Đăng xuất
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+    </div>
+  </a-layout-header>
+</template>
+
 <script setup lang="ts">
-import { ICONS } from "../constants/icon";
-import InputField from "../common/InputField.vue";
+import { ref, h } from "vue";
+import { BellOutlined, MessageOutlined  ,SearchOutlined, UserOutlined} from "@ant-design/icons-vue";
+import InputField from "../common/input/InputField.vue";
+import ButtonBadge from "../common/button/ButtonBadge.vue";
+const onBellClick = () => console.log("🔔 Mở thông báo");
+const onMessageClick = () => console.log("💬 Mở tin nhắn");
+const searchValue = ref("");
 </script>
 
-<template>
-  <header class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
-    <div class="flex items-center space-x-4">
-      <button class="text-gray-600 focus:outline-none lg:hidden">
-        <component :is="ICONS.Menu" class="text-xl" />
-      </button>
-      <div class="relative">
-        <InputField />
-        <component
-          :is="ICONS.Search"
-          class="absolute left-3 top-1.5 text-gray-400 text-lg"
-        />
-      </div>
-    </div>
-    <div class="flex items-center space-x-4">
-      <div class="relative">
-        <button class="text-gray-600">
-          <component :is="ICONS.Bell" class="text-xl" />
-        </button>
-        <span
-          class="absolute -top-1 -right-1 h-4 w-4 text-xs flex items-center justify-center bg-red-500 text-white rounded-full"
-          >5</span
-        >
-      </div>
-      <div class="relative">
-        <button class="text-gray-600">
-          <component :is="ICONS.Message" class="text-xl" />
-        </button>
-        <span
-          class="absolute -top-1 -right-1 h-4 w-4 text-xs flex items-center justify-center bg-red-500 text-white rounded-full"
-          >3</span
-        >
-      </div>
-      <div class="flex items-center">
-        <div
-          class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold text-lg"
-        >
-          <component :is="ICONS.Users" />
-        </div>
-        <div class="ml-3 text-right">
-          <p class="text-sm font-semibold text-gray-800">Admin</p>
-          <p class="text-xs text-gray-500">Quản trị viên</p>
-        </div>
-      </div>
-    </div>
-  </header>
-</template>
+<style scoped>
+.ant-layout-header {
+  height: auto;
+  line-height: normal;
+}
+</style>
