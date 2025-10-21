@@ -6,15 +6,68 @@
   @close="Close"
   class="max-w-2xl"
 >
- <input type="text" v-model="form.name" placeholder="Nhập tên danh mục" class="w-full" required />
-  <BaseInput label="Tên sản phẩm" v-model="form.name" class="w-full" />
-  <BaseInput label="Danh muc san pham" v-model="form.category_name" type="number" class="w-full" />
-<BaseInput label="Hình ảnh (URL)" v-model="form.imageUrl" class="w-full" />
-
-<BaseInput label="Mô tả" v-model="form.description" tag="textarea" class="w-full" />
-
+  <div class="space-y-4">
+    <BaseInput 
+      label="Tên sản phẩm" 
+      v-model="form.name" 
+      class="w-full"
+      required
+    />
+    
+    <BaseInput 
+      label="Danh mục sản phẩm" 
+      v-model="form.category_name" 
+      class="w-full"
+      placeholder="Nhập tên danh mục"
+    />
+    
+    <BaseInput 
+      label="Giá" 
+      v-model="form.price" 
+      type="number"
+      class="w-full"
+      placeholder="0"
+    />
+    
+    <BaseInput 
+      label="Hình ảnh (URL)" 
+      v-model="form.imageUrl" 
+      class="w-full"
+      placeholder="https://example.com/image.jpg"
+    />
+    
+    <BaseInput 
+      label="Mô tả" 
+      v-model="form.description" 
+      tag="textarea" 
+      class="w-full"
+      placeholder="Mô tả sản phẩm..."
+    />
+    
+    <div class="flex items-center gap-2">
+      <input 
+        type="checkbox" 
+        id="is_available" 
+        v-model="form.is_available" 
+        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+      />
+      <label for="is_available" class="text-sm font-medium text-gray-700">
+        Đang có sẵn
+      </label>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái</label>
+      <select 
+        v-model="form.status" 
+        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option :value="ProductStatus.Published">Đã xuất bản</option>
+        <option :value="ProductStatus.Draft">Bản nháp</option>
+      </select>
+    </div>
+  </div>
 </FormModal>
-
 </template>
 
 <script setup lang="ts">
@@ -22,8 +75,6 @@ import { ref, watch } from "vue";
 import { ProductStatus, type Product } from "../index";
 import BaseInput from "../../../components/common/input/BaseInput.vue";
 import FormModal from "../../../components/common/modal/FormModal.vue";
-
-// Props
 const props = defineProps<{
   isOpen: boolean;
   product: Product | null;
@@ -84,9 +135,32 @@ watch(
   }
 );
 
+// Validation function
+const validateForm = (): boolean => {
+  if (!form.value.name.trim()) {
+    alert('Vui lòng nhập tên sản phẩm');
+    return false;
+  }
+  if (!form.value.category_name.trim()) {
+    alert('Vui lòng nhập danh mục sản phẩm');
+    return false;
+  }
+  if (!form.value.price || parseFloat(form.value.price) < 0) {
+    alert('Vui lòng nhập giá hợp lệ');
+    return false;
+  }
+  return true;
+};
+
 // Gửi dữ liệu lên parent
 const handleSubmit = () => {
-  emit("save", { ...form.value });
+  if (validateForm()) {
+    const productData = {
+      ...form.value,
+      price: parseFloat(form.value.price).toString(),
+    };
+    emit("save", productData);
+  }
 };
 
 const Close = () => emit("close");

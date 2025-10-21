@@ -3,6 +3,7 @@ import { ICON_PATHS } from "../../components/constants/icon"
 import index from "./page/index.page.vue"
 import products from "../products/index.router"
 import home from "../home/index.router"
+import categories from "../categories/index.router"
 export default [
   {
     path: "/admin/dashboard",  
@@ -11,7 +12,8 @@ export default [
     meta: { title: "Bảng điều khiển" ,  icon :  ICON_PATHS.Dashboard } , 
     children: [  
       ...home,
-      ...products
+      ...products,
+      ...categories
     ]
   }
 ]

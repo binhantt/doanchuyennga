@@ -53,8 +53,5 @@ const searchValue = ref("");
 </script>
 
 <style scoped>
-.ant-layout-header {
-  height: auto;
-  line-height: normal;
-}
+
 </style>

@@ -1,4 +1,4 @@
-// src/features/products/hooks/UserModal.ts
+
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import type { Product } from "../index";

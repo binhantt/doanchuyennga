@@ -27,11 +27,12 @@
       :columns="columns"
       :data-source="data"
       :loading="loading"
-      :pagination="false"
+      :pagination="pagination"
       row-key="id"
       :locale="{
         emptyText: loading ? 'Đang tải dữ liệu...' : 'Không có dữ liệu để hiển thị'
       }"
+      @change="$emit('change', $event)"
     >
     </a-table>
   </a-card>
@@ -47,9 +48,17 @@ defineProps<{
   columns: any[];
   data?: any[];
   loading?: boolean;
+  pagination?: {
+    current: number;
+    pageSize: number;
+    total: number;
+    showSizeChanger?: boolean;
+    pageSizeOptions?: string[];
+    showTotal?: (total: number, range: [number, number]) => string;
+  };
 }>();
 
-defineEmits(["add", "refresh"]);
+defineEmits(["add", "refresh", "change"]);
 
 const searchValue = ref("");
 </script>

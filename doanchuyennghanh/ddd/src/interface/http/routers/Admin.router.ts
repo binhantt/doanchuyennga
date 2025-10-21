@@ -59,7 +59,7 @@ export const AdminRouter = buildGroupedRoutes(router, [
     ]
   },
   {
-     basePath :  "/Categories",
+     basePath :  "/categories",
      routes : [
        {
           method : "get",

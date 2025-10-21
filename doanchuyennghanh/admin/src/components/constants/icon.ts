@@ -20,6 +20,7 @@ export const ICONS = {
     Edit : EditOutlined, 
     Delete : DeleteOutlined,
     Users: UserOutlined,
+    Categories: FileTextOutlined,
     Plus : PlusOutlined,
     Refresh : RetweetOutlined,
     Products: ShoppingOutlined,

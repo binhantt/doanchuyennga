@@ -1,13 +1,12 @@
 <template>
   <div class="w-64 bg-blue-500 text-white flex flex-col">
-    <div class="flex items-center justify-center h-20 border-b border-blue-800">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round"
-           class="h-8 w-8 mr-2">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-      <h1 class="text-2xl font-bold">AdminPanel</h1>
+    <div class="flex items-center justify-center h-13.5 border-b border-blue-800">
+      
+      <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+        <component  :is="ICONS.Dashboard" />
+        AdminPanel
+
+      </h1>
     </div>
     <nav class="flex-1 px-4 py-6">
       <ul>
@@ -45,6 +44,7 @@ onMounted(() => {
 const menuItems: SidebarItemType[] = [
   { name: "Dashboard", icon: ICONS.Dashboard, section: "QUẢN LÝ", path: "/admin/dashboard" },
   { name: "Người dùng", icon: ICONS.Users, path: "/admin/dashboard/users" },
+  { name: "Danh mục", icon: ICONS.Categories, path: "/admin/dashboard/categories" },
   { name: "Sản phẩm", icon: ICONS.Products, path: "/admin/dashboard/products" },
   { name: "Đơn hàng", icon: ICONS.Orders, path: "/admin/dashboard/orders" },
   { name: "Báo cáo", icon: ICONS.Reports, path: "/admin/dashboard/reports" },
