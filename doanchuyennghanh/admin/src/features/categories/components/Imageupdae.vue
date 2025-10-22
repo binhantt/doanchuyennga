@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import BaseImage from '../../../components/common/input/BaseImage.vue';
+import { BaseImage } from '../../../components/common/input/index';
 import type { Category } from '../index';
 const props = defineProps<{
   imageUrl?: string;
