@@ -14,13 +14,9 @@
         class="w-full"
         required
       />
-
-      <!-- Hình ảnh (URL) -->
-      <BaseInput 
-        label="Hình ảnh (URL)" 
-        v-model="form.image_url" 
-        class="w-full"
-        placeholder="https://example.com/image.jpg"
+      <Imageupdae 
+        v-model:imageUrl="form.image_url"
+        @update:imageUrl="form.image_url = $event"
       />
     </div>
   </BaseModal>
@@ -31,12 +27,11 @@ import BaseModal from "../../../components/common/modal/FormModal.vue";
 import BaseInput from "../../../components/common/input/BaseInput.vue"; 
 import { ref, watch } from "vue";
 import type { Category } from "../index";
-
-// Props & Emit
+import Imageupdae from "./Imageupdae.vue";
 const props = defineProps<{
   isOpen: boolean;
   category: Category | null;
-  index?: number; // thêm index nếu muốn truyền kèm
+  index?: number;// thêm index nếu muốn truyền kèm 
 }>();
 const emit = defineEmits<{
   (e: "close"): void;
@@ -50,7 +45,6 @@ const form = ref<Category>({
   image_url: ""
 });
 
-// Khi props.category thay đổi hoặc modal mở => gán dữ liệu vào form
 watch(
   [() => props.category, () => props.isOpen],
   ([newCategory, isOpen]) => {
@@ -67,7 +61,11 @@ const handleSubmit = () => {
     alert("Vui lòng nhập tên danh mục");
     return;
   }
-  emit("save", { category: { ...form.value }, extraData: { index: props.index } });
+  
+  emit("save", { 
+    category: { ...form.value }, 
+    extraData: { index: props.index } 
+  });
 };
 
 // Close modal

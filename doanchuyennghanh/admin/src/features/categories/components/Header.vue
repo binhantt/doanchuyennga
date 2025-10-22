@@ -25,14 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { DatabaseOutlined, PlusOutlined } from "@ant-design/icons-vue";
-import { useModal } from "../hooks/UserModal";
-
-const modalStore = useModal();
-
-const openModalForNewCategory = () => {
-  modalStore.openModal(null); // null để tạo danh mục mới
-};
+import { DatabaseOutlined, PlusOutlined } from "@ant-design/icons-vue"  
 </script>
 
 <style scoped>

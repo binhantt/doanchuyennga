@@ -23,6 +23,7 @@ import { useModal } from "../hooks/UserModal";
 import { usePagination } from "../../../hooks/usePagination";
 import { h, onMounted, ref, watch } from "vue";
 import { useCategoriesStore } from "../store/Store";
+import Image from "../../../components/common/bard/Image.vue";
 const categoriesStore = useCategoriesStore();
 const modalStore = useModal();
 const categoriesData = ref(categoriesStore.categories);
@@ -41,13 +42,12 @@ watch(
   },
   { immediate: true }
 );
-
 const columns = [
   { title: "ID", dataIndex: "id", key: "id" },
   { title: "Tên danh mục", dataIndex: "name", key: "name" },
   {title : "ảnh ", dataIndex: "image_url", key: "image_url",  // Sửa từ "image" sang "image_url"
     customRender: ({ text } : { text : string }) =>
-      h("img", { src: text, alt: "ảnh", class: "w-12 h-12 rounded" })
+      h(Image, { src: text, alt: "ảnh", class: "w-1 h-1 rounded" })
   },
   {
     title: "Thao tác",
@@ -73,7 +73,7 @@ const columns = [
             "a",
             {
               class: "text-red-500 hover:underline cursor-pointer",
-              onClick: () => handleDelete(record.id),
+              onClick: () => handleDelete(record.id,record.index),
             },
             "Xóa"
           ),
@@ -89,25 +89,18 @@ const fetchCategories = async () => {
     message.error("Lỗi khi tải danh mục");
   }
 };
-
-const handleSave = async (category : any , index : number) => {
-  if (index !== undefined) {
-    if (category.id !== -1) {
-      await categoriesStore.updateCategory(category.id, category);
-      message.success("Cập nhật danh mục thành công!");
-    }
-  } else {
-    // Thêm mới trên server
+const handleSave = async (payload: { category: any; extraData?: any }) => {
+  const { category } = payload;
+  console.log('handleSave - category:', category);
+  if (!category.id || category.id === -1 || category.id === "") {
     await categoriesStore.createCategory(category);
-    message.success("Thêm danh mục mới thành công!");
+  } else {
+    await categoriesStore.updateCategory(category.id, category);
   }
   modalStore.closeModal();
 };
-
-const handleDelete = async (id : any) => {
-
-  await categoriesStore.deleteById(id);
-  message.success("Đã xóa danh mục!");
+const handleDelete = async (id : any ,index : number) => {
+  await categoriesStore.deleteById(id,index);
 };
 
 </script>
