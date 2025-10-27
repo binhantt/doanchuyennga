@@ -12,6 +12,7 @@ class DisheController {
     private updateDishesUseCase = new UpdateUserUserCase(db);
     Create = async (req: Request, res: Response): Promise<Response> => {
         try {
+            console.log(req.body);
             const dish = await this.createDishesUseCase.execute(req.body);
             return res.status(201).json({ data: dish });
         } catch (error: any) {
@@ -38,6 +39,7 @@ class DisheController {
         }
     };
     Update = async (req: Request, res: Response): Promise<Response> => {
+        console.log(req.params.id , req.body   )
     try {
        const id = parseInt(req.params.id, 10);
         console.log(id)

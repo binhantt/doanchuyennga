@@ -8,7 +8,7 @@ export class CreateDishesUseCase {
   async execute(data: CreateDishesDTO): Promise<Dishes> {
     const { name, description, price, category_id, image_url, is_available } = data;
     console.log(data)
-    if (!name || !price || !description || !image_url || category_id ) {
+    if (!name || !price || !description || !image_url || !category_id ) {
       throw new Error("Tên món ăn và giá là bắt buộc!");
     }
     // Insert vào bảng dishes

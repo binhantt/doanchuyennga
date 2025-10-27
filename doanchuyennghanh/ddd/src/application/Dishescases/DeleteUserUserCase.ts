@@ -6,8 +6,9 @@ export class  DeleteUserUserCase {
             if (!id || id <= 0) {
             throw new Error("ID thuc an  dùng không hợp lệ");
         } 
-        const user = await this.db("Dishes").where({ id: id }).first();
-        if (!user) {
+      
+        const user =  await this.db("Dishes").where({ id: id }).del();;
+        if (!user ) {
             throw new Error("Người dùng không tồn tại");
         }
     } 
