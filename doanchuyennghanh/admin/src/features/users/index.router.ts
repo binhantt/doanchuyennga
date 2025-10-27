@@ -2,9 +2,9 @@ import { ICON_PATHS } from "../../components/constants/icon";
 import index from "./page/index.page.vue";
 export default [
     {
-        path: "products",
-        name: "products",
+        path: "users",
+        name: "users",
         component: index,
-        meta: { title: "Sản phẩm", icon: ICON_PATHS.Dashboard },
+        meta: { title: "Người dùng", icon: ICON_PATHS.Dashboard },
     }
 ]

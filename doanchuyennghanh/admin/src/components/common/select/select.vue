@@ -1,9 +1,9 @@
 <template>
-  <div class="base-select-wrapper">
-    <label v-if="label" class="select-label">
-      <component v-if="icon" :is="icon" class="label-icon" />
+  <div class="">
+    <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1">
+      <component v-if="icon" :is="icon" class="inline-block align-middle mr-2" />
       {{ label }}
-      <span v-if="required" class="required-mark">*</span>
+      <span v-if="required" class="text-red-500 ml-1">*</span>
     </label>
     
     <a-select
@@ -16,7 +16,7 @@
       :filter-option="filterOption"
       :mode="mode"
       :size="size"
-      :class="['base-select', { 'select-error': hasError }]"
+      :class="['w-full  focus:outline-none focus:ring-2 transition-colors', hasError ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-transparent']"
       @change="handleChange"
       @focus="handleFocus"
       @blur="handleBlur"
@@ -27,16 +27,16 @@
         :value="option.value"
         :disabled="option.disabled"
       >
-        <span v-if="option.icon" class="option-icon">{{ option.icon }}</span>
+        <span v-if="option.icon" class="inline-block align-middle mr-2">{{ option.icon }}</span>
         {{ option.label }}
       </a-select-option>
     </a-select>
     
-    <div v-if="errorMessage" class="error-message">
+    <div v-if="errorMessage" class="mt-1 text-sm text-red-600">
       ⚠️ {{ errorMessage }}
     </div>
     
-    <div v-else-if="hint" class="hint-message">
+    <div v-else-if="hint" class="mt-1 text-sm text-gray-500">
       💡 {{ hint }}
     </div>
   </div>
@@ -44,7 +44,6 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import type { SelectProps } from 'ant-design-vue'
 
 export interface SelectOption {
   label: string

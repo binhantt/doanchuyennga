@@ -41,7 +41,8 @@ export const useProductsStore = defineStore("products", () => {
       console.log(product);
       await update(product );
       products.value[index] = product;
-      message.success("Cập nhật trạng thái thành công");
+      
+      message.success("Cập nhật sản phẩm thành công");
     } catch (err) {
       console.error("Lỗi khi cập nhật trạng thái:", err);
       message.error("Cập nhật trạng thái thất bại");

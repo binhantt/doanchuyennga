@@ -1,5 +1,5 @@
 <template>
-  <a-button :type="type" :loading="loading" :disabled="disabled" :block="block" class="!" @click="$emit('click')">
+  <a-button :class="customClass" :type="type" :loading="loading" :disabled="disabled" :block="block" class="!" @click="$emit('click')">
     <slot />
   </a-button>
 </template>
@@ -13,6 +13,10 @@ const props = defineProps({
   type: {
     type: String,
     default: "primary",
+  },
+   customClass : {
+    type: String,
+    default: "",
   },
   loading: {
     type: Boolean,

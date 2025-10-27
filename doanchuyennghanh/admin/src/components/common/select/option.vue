@@ -14,21 +14,3 @@ interface Props {
 
 defineProps<Props>()
 </script>
-
-<style scoped>
-.option-item {
-  padding: 8px 12px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.option-item:hover:not(.disabled) {
-  background-color: #f3f4f6;
-}
-
-.option-item.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-</style>

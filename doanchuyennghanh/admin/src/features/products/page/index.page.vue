@@ -1,9 +1,9 @@
 <template>
-        <ProductsHeader />
+        <Header />
         <Products/>
 </template>
 
 <script setup>
 import Products from '../components/Products.vue';
-import ProductsHeader from '../../categories/components/Header.vue';
+import Header from '../components/Header.vue';
 </script>

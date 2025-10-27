@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { message } from "ant-design-vue";
+import { message, Modal } from "ant-design-vue";
 import Table from "../../../components/common/table/Table.vue";
 import ProductModal from "../components/ProductModal.vue";
 import { useProductsStore } from "../store/Store";
@@ -117,13 +117,25 @@ const handleSave = async (product : any ) => {
   modalStore.closeModal();
 };
 const handleDelete = async (id : any) => {
-  try {
-    await productsStore.deleteById(id);
-  
-  } catch (error) {
-
-    return; // Không đóng modal nếu có lỗi
-  }
+  Modal.confirm({
+    title: 'Xác nhận xóa',
+    content: 'Bạn có chắc chắn muốn xóa sản phẩm này không?',
+    okText: 'Xóa',
+    okType: 'danger',
+    cancelText: 'Hủy',
+    async onOk() {
+      try {
+        await productsStore.deleteById(id);
+        message.success('Xóa sản phẩm thành công!');
+      } catch (error) {
+        console.error('❌ Lỗi khi xóa sản phẩm:', error);
+        message.error('Có lỗi xảy ra khi xóa sản phẩm');
+      }
+    },
+    onCancel() {
+      console.log('Hủy xóa');
+    },
+  });
 };
 
 // Watch for data changes to update total

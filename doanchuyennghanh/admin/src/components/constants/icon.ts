@@ -12,7 +12,8 @@ import {
    EditOutlined,
    DeleteOutlined ,
    RetweetOutlined, 
-    DashboardOutlined, UserOutlined, ShoppingOutlined, FileTextOutlined, SettingOutlined, LogoutOutlined
+    DashboardOutlined, UserOutlined, ShoppingOutlined, FileTextOutlined, SettingOutlined, LogoutOutlined,
+    FolderOutlined
 } from "@ant-design/icons-vue";
 
 export const ICONS = {
@@ -23,6 +24,7 @@ export const ICONS = {
     Categories: FileTextOutlined,
     Plus : PlusOutlined,
     Refresh : RetweetOutlined,
+    Category: FolderOutlined,
     Products: ShoppingOutlined,
     Orders: FileTextOutlined,
     Reports: FileTextOutlined,

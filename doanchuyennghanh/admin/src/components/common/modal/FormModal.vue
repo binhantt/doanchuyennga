@@ -1,19 +1,20 @@
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4 p-6 transform transition-transform duration-300"
-          :class="[isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0', $attrs.class]">
-        <ModalHeader :title="title" @close="close" />
-       <a-modal
-    v-model:open="visible"
-    :title="title"
-    centered
-    :footer="null"
-    :maskClosable="false"
-    :destroyOnClose="true"
-    class="rounded-lg"
-  >
-          <slot/>
+    <div>
+      <a-modal
+        :open="isOpen"
+        :title="title" 
+        centered
+        :maskClosable="false"
+        :destroyOnClose="true"
+        class="rounded-lg"
+        @cancel="close"
+      >
+        <template #title>
+          <ModalHeader :title="title" @close="close" />
+        </template>
+        <slot />
+        <template #footer>
           <div class="pt-4 flex justify-end space-x-3">
             <BaseButton type="button" @click="close" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300">
               Hủy
@@ -22,13 +23,16 @@
               Lưu
             </BaseButton>
           </div>
-         </a-modal>
-      </div>
+        </template>
+      </a-modal>
     </div>
   </Teleport>
 </template>
+
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import ModalHeader from "./ModalHeader.vue";
+import BaseButton from "../button/BaseButton.vue";
 
 const props = defineProps<{
   isOpen: boolean;
@@ -40,24 +44,11 @@ const emit = defineEmits<{
   (e: "submit"): void;
 }>();
 
-// Trạng thái hiển thị modal
-const visible = ref(props.isOpen);
-
-watch(
-  () => props.isOpen,
-  (val) => (visible.value = val)
-);
-
-watch(visible, (val) => {
-  if (!val) emit("close");
-});
-
 const handleSubmit = () => {
   emit("submit");
 };
 
 const close = () => {
-  visible.value = false;
   emit("close");
 };
 </script>

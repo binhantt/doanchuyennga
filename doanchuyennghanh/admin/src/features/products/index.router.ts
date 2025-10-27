@@ -4,7 +4,14 @@ export default [
     {
         path: "products",
         name: "products",
-        component: index,
         meta: { title: "Sản phẩm", icon: ICON_PATHS.Dashboard },
+        children: [
+            {
+                path: "food",
+                name: "products.index",
+                component: index,
+                meta: { title: "Danh sách sản phẩm",icon: ICON_PATHS.Dashboard  },
+            },
+        ],
     }
 ]

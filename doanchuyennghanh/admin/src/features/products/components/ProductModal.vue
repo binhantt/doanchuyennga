@@ -9,7 +9,7 @@
   <div class="space-y-6 form-container">
     <div>
       <BaseInput 
-        label="🏷️ Tên sản phẩm" 
+        label="Tên sản phẩm" 
         v-model="form.name" 
         class="w-full"
         required
@@ -161,7 +161,7 @@ const getInitialCategoryId = (product: Product | null): string => {
   // Nếu không có category_id nhưng có category_name, tìm category theo tên
   if (product.category_name) {
     const category = categoryStore.categories.find(cat => cat.name === product.category_name)
-    return category?.id || ''
+    if (category) return category.id
   }
   return ''
 }

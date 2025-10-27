@@ -1,8 +1,9 @@
-import type { Component } from "vue";
 
-export interface SidebarItem {
+export interface SidebarItemType {
   name: string;
-  icon: Component;
+  title? : string;
+  icon: any;
   path: string;
   section?: string;
+  children?: SidebarItemType[];
 }

@@ -2,19 +2,17 @@ import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { api, type Category } from '../api/api'
 import { message } from 'ant-design-vue'
+import { ICONS } from '../components/constants/icon'
 
 export const useCategoryStore = defineStore('category', () => {
   // State
   const categories = ref<Category[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
-
-  // Getters
   const categoryOptions = computed(() => 
     categories.value.map(cat => ({
       label: cat.name,
       value: cat.id,
-      icon: '📂'
     }))
   )
 

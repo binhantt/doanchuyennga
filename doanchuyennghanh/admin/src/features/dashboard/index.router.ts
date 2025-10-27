@@ -4,6 +4,7 @@ import index from "./page/index.page.vue"
 import products from "../products/index.router"
 import home from "../home/index.router"
 import categories from "../categories/index.router"
+import users from "../users/index.router"
 export default [
   {
     path: "/admin/dashboard",  
@@ -13,7 +14,8 @@ export default [
     children: [  
       ...home,
       ...products,
-      ...categories
+      ...categories,
+      ...users
     ]
   }
 ]

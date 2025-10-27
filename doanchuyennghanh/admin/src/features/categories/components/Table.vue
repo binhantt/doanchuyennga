@@ -16,7 +16,7 @@
 />
 </template>
 <script setup lang="ts">
-import { message } from "ant-design-vue";
+import { message, Modal } from "ant-design-vue";
 import Table from "../../../components/common/table/Table.vue";
 import CategoryModal from "./modal.vue";
 import { useModal } from "../hooks/UserModal";
@@ -100,7 +100,25 @@ const handleSave = async (payload: { category: any; extraData?: any }) => {
   modalStore.closeModal();
 };
 const handleDelete = async (id : any ,index : number) => {
-  await categoriesStore.deleteById(id,index);
+  Modal.confirm({
+    title: 'Xác nhận xóa',
+    content: 'Bạn có chắc chắn muốn xóa danh mục này không?',
+    okText: 'Xóa',
+    okType: 'danger',
+    cancelText: 'Hủy',
+    async onOk() {
+      try {
+        await categoriesStore.deleteCategory(id);
+        message.success('Xóa danh mục thành công!');
+      } catch (error) {
+        console.error('❌ Lỗi khi xóa danh mục:', error);
+        message.error('Có lỗi xảy ra khi xóa danh mục');
+      }
+    },
+    onCancel() {
+      console.log('Hủy xóa danh mục');
+    },
+  });
 };
 
 </script>
