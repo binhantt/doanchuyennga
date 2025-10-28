@@ -1,6 +1,6 @@
 <template>
-  <a-badge :count="count" size="small" :offset="offset">
-    <ButtonPrimary :class="'bg-white hover:!bg-gray-100 p-0'"
+  <a-badge :count="count" size="small" class="" :offset="offset">
+    <ButtonPrimary :class="'bg-white hover:!bg-gray-100 p-0 flex justify-center items-center'"
       :type="type"
       :loading="loading"
       :disabled="disabled"

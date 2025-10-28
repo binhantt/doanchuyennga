@@ -1,6 +1,6 @@
-export const ProductStatus = {
-  Published: "Đã xuất bản",
-  Draft: "Bản nháp",
+export enum ProductStatus {
+  Published = "Đã xuất bản",
+  Draft = "Bản nháp",
 }
 
 export interface Product {
@@ -11,8 +11,8 @@ export interface Product {
   is_available: boolean;
   category_name: string;
   category_id: string;
-  price: number;
-  status: keyof typeof ProductStatus;
+  price: string;
+  status: ProductStatus;
 }
 
 export interface ProductListResponse {

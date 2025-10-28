@@ -2,15 +2,15 @@ import { ICON_PATHS } from "../../components/constants/icon";
 import index from "./page/index.page.vue";
 export default [
     {
-        path: "products",
-        name: "products",
-        meta: { title: "Sản phẩm", icon: ICON_PATHS.Dashboard },
+        path: "orders",
+        name: "orders",
+        meta: { title: "Đơn hàng", icon: ICON_PATHS.Dashboard },
         children: [
             {
                 path: "food",
-                name: "products.index",
+                name: "order.index",
                 component: index,
-                meta: { title: "Danh sáchản phẩm",icon: ICON_PATHS.Dashboard  },
+                meta: { title: "Danh sách đơn hàng",icon: ICON_PATHS.Dashboard  },
             },
         ],
     }

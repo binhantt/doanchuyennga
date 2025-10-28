@@ -16,10 +16,10 @@
         <slot />
         <template #footer>
           <div class="pt-4 flex justify-end space-x-3">
-            <BaseButton type="button" @click="close" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300">
+            <BaseButton type="button" @click="close" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 flex justify-center items-center">
               Hủy
             </BaseButton>
-            <BaseButton type="button" @click="handleSubmit" class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+            <BaseButton type="button" @click="handleSubmit" class="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 flex justify-center items-center">
               Lưu
             </BaseButton>
           </div>

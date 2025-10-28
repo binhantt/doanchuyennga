@@ -1,5 +1,5 @@
 <template>
-  <a-sub-menu v-if="item.children" :key="item.name" class="text-white hover:text-white" popupClassName="submenu-popup-scroll">
+  <a-sub-menu v-if="item.children" :key="item.name" class="text-white hover:text-white overflow-y-auto max-h-screen" popupClassName="submenu-popup-scroll">
     <template #title>
       <div class="flex items-center w-full px-4 py-2">
         <component :is="item.icon" class="mr-3 text-white" />

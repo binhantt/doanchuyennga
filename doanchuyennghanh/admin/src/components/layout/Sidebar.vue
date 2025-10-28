@@ -1,11 +1,9 @@
 <template>
   <div class="w-64 bg-blue-500 text-white flex flex-col text-white overflow-y-auto max-h-screen custom-scrollbar-hide">
     <div class="flex items-center justify-center h-13.5 border-b border-blue-800">
-      
-      <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+      <h1 class="text-2xl font-bold text-white flex items-center my-3 gap-2">
         <component  :is="ICONS.Dashboard" />
         AdminPanel
-
       </h1>
     </div>
     <nav class="flex-1 px-4 py-6">
@@ -14,9 +12,9 @@
     v-model:openKeys="openKeys"
     mode="inline"
     :inline-collapsed="false"
-    class="bg-blue-500"
+    class="bg-blue-500  "
   >
-    <template class="text-white" v-for="item in menuItems" :key="item.name">
+    <template class="text-white " v-for="item in menuItems" :key="item.name">
       <SidebarSection v-if="item.section" :title="item.section" />
       <SidebarItem :item="item" :isActive="activeItem === item.name" @click="setActiveItem" />
     </template>
@@ -45,7 +43,14 @@ const menuItems: SidebarItemType[] = [
       { name: "Dịch vụ", icon: ICONS.Products, path: "/admin/dashboard/products/services" }
     ]
   },
-  { name: "Đơn hàng", icon: ICONS.Orders, path: "/admin/dashboard/orders" },
+  { name: "Đơn hàng",
+     icon: ICONS.Orders, 
+     path: "",
+      children: [
+      { name: "Món ăn", icon: ICONS.Orders, path: "/admin/dashboard/orders/food" },
+      { name: "Dịch vụ", icon: ICONS.Orders, path: "/admin/dashboard/orders/services" }
+    ]
+   },
   { name: "Báo cáo", icon: ICONS.Reports, path: "/admin/dashboard/reports" },
   { name: "Cài đặt", icon: ICONS.Settings, section: "CẤU HÌNH", path: "/admin/dashboard/settings" },
   { name: "Tài khoản", icon: ICONS.Account, path: "/admin/dashboard/account" },
@@ -60,25 +65,62 @@ const route = useRoute();
 const setActiveItem = (item: SidebarItemType) => {
   activeItem.value = item.name;
   localStorage.setItem("activeItem", item.name);
-  selectedKeys.value = [item.path];
-  if (!item.children) {
-    const parent = menuItems.find(menuItem => menuItem.children?.some(child => child.path === item.path));
+
+  if (!item.children) { // Only set selectedKeys for leaf nodes
+    selectedKeys.value = [item.name]; // Use item.name as key
+    // Ensure parent is open if it's a child
+    const parent = menuItems.find(menuItem => menuItem.children?.some(child => child.name === item.name)); // Find parent by child's name
     if (parent) {
-      openKeys.value = [parent.name];
+      openKeys.value = [parent.name]; // Open this parent and close others
     } else {
-      openKeys.value = [];
+      openKeys.value = []; // No parent, close all submenus
+    }
+  } else { // If it's a parent item, toggle its open state
+    if (openKeys.value.includes(item.name)) {
+      openKeys.value = []; // Close this parent
+    } else {
+      openKeys.value = [item.name]; // Open this parent and close others
     }
   }
 };
 
-watch(route, (newRoute) => {
-  selectedKeys.value = [newRoute.path];
-  const parent = menuItems.find(item => item.children?.some(child => child.path === newRoute.path));
-  if (parent) {
-    openKeys.value = [parent.name];
+const updateMenuStateFromRoute = (currentPath: string) => {
+  let currentItem: SidebarItemType | undefined;
+  let parentItem: SidebarItemType | undefined;
+
+  // Find the menu item corresponding to the current route path
+  for (const item of menuItems) {
+    if (item.path === currentPath) {
+      currentItem = item;
+      break;
+    }
+    if (item.children) {
+      const child = item.children.find(c => c.path === currentPath);
+      if (child) {
+        currentItem = child;
+        parentItem = item;
+        break;
+      }
+    }
+  }
+
+  if (currentItem) {
+    selectedKeys.value = [currentItem.name]; // Use item.name as key
+    if (parentItem) {
+      openKeys.value = [parentItem.name];
+    } else if (currentItem.children) { // If current item is a parent and has children, open it
+      openKeys.value = [currentItem.name];
+    } else {
+      openKeys.value = [];
+    }
   } else {
+    selectedKeys.value = [];
     openKeys.value = [];
   }
+};
+
+watch(route, (newRoute) => {
+  updateMenuStateFromRoute(newRoute.path);
 }, { immediate: true });
 
 onMounted(() => {
@@ -86,11 +128,7 @@ onMounted(() => {
   if (saved) {
     activeItem.value = saved;
   }
-  selectedKeys.value = [route.path];
-  const parent = menuItems.find(item => item.children?.some(child => child.path === route.path));
-  if (parent) {
-    openKeys.value = [parent.name];
-  }
+  updateMenuStateFromRoute(route.path);
 });
 </script>
 

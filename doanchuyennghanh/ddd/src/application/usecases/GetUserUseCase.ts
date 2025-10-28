@@ -6,7 +6,7 @@ export class GetContactsUseCase {
 
     async execute(): Promise<Partial<User>[]> {
         const contacts = await this.db<User>("users")
-            .select("username", "email", "phoneNumber", "address" , "role" , "accessToken", "refreshToken");
+            .select("id","username", "email", "phoneNumber", "address" , "role" , "accessToken", "refreshToken");
         console.log(contacts);
         if (contacts.length === 0) {
             throw new Error("Không tìm thấy liên hệ nào.");

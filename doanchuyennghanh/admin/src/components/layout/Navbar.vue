@@ -13,11 +13,11 @@
     <ButtonBadge :icon="MessageOutlined" :count="3" @click="onMessageClick" />
 
       <a-dropdown trigger="click">
-        <div class="flex items-center gap-2 cursor-pointer">
-          <a-avatar style="background-color: #1677ff">
-            <UserOutlined />
+        <div class="flex items-center gap-2">
+          <a-avatar style="background-color: #1677ff ; ">
+            <UserOutlined class="text-2xl" />
           </a-avatar>
-          <div class="text-right hidden sm:block">
+          <div class="text-right flex justify-start flex-col hidden sm:block">
             <p class="text-sm font-semibold text-gray-800 m-0">Admin</p>
             <p class="text-xs text-gray-500 m-0">Quản trị viên</p>
           </div>

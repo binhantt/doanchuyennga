@@ -16,6 +16,16 @@ export const AdminRouter = buildGroupedRoutes(router, [
         handler: UserController.getAllUsers,
       },
       {
+        method: "post",
+        path: "/create",
+        handler: UserController.createUser, 
+      },
+      {
+        method: "put",
+        path: "/update/:id",
+        handler: UserController.updateUser, 
+      },
+      {
         method: "delete",
         path: "/delete/:id",
         handler: UserController.deteleUser,

@@ -4,6 +4,7 @@ import { CreateUserUseCase } from '../../../application/usecases/CreateUserUseCa
 import { db } from '../../../infrastructure/db';
 import { GetContactsUseCase } from '../../../application/usecases/GetUserUseCase';
 import { DeleteUserUserCase } from '../../../application/usecases/DeleteUserUserCase';
+import { UpdateUserUserCase } from '../../../application/usecases/UpdateUserUserCase';
 
 class UserController {
   createUser = async (req: Request, res: Response): Promise<Response> => {
@@ -43,7 +44,24 @@ class UserController {
     } catch (err: any) {
       return res.status(400).json({ error: err.message });
     }
-  }; 
+  };
+  updateUser = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const userId = parseInt(req.params.id, 10);
+      const { username, email, phoneNumber, address , password  } = req.body;
+      const useCase = new UpdateUserUserCase(db);
+      const updatedUser = await useCase.execute(
+        userId, { username, email, phoneNumber, address , password }
+      );
+      return res.status(200).json({
+        message: "Người dùng được cập nhật thành công",
+        data: updatedUser,
+      });
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message });
+    }
+  };
+
 }
 
 

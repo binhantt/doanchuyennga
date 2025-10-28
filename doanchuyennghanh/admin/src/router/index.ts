@@ -14,8 +14,8 @@ export const router = createRouter({
 })
 router.afterEach((to) => {
   document.title = to.meta.title ? `${to.meta.title} | Admin Panel` : "Admin Panel";
-    const icon = to.meta.icon ; // fallback icon
-  const link = document.querySelector("link[rel~='icon']") ||document.createElement("link");
+  const icon = to.meta.icon as string; // Explicitly cast to string
+  const link: HTMLLinkElement = (document.querySelector("link[rel~='icon']") || document.createElement("link")) as HTMLLinkElement;
   link.rel = "icon";
   link.href = icon;
   document.head.appendChild(link);

@@ -4,7 +4,7 @@
     <a-space align="center" class="w-full justify-between">
 
       <a-space align="center">
-        <a-avatar shape="square" size="large" style="background-color: #e6f4ff; color: #1677ff">
+        <a-avatar shape="square" size="large" style="background-color: #e6f4ff; color: #1677ff; display: flex; align-items: center; justify-content: center; padding: 1.5rem;">
           <template #icon>
             <DatabaseOutlined />
           </template>
