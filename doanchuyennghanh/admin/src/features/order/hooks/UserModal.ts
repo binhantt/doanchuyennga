@@ -1,14 +1,14 @@
 
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { Product } from "../index";
+import type { Order } from "../index";
 
-export const useModal = defineStore("modal", () => {
+export const useOrderModal = defineStore("orderModal", () => {
   const isModalOpen = ref(false);
-  const editingProduct = ref<Product | null>(null);
+  const editingOrder = ref<Order | null>(null);
 
-  const openModal = (product: Product | null = null) => {
-    editingProduct.value = product;
+  const openModal = (order: Order | null = null) => {
+    editingOrder.value = order;
     isModalOpen.value = true;
   };
 
@@ -16,7 +16,7 @@ export const useModal = defineStore("modal", () => {
     setTimeout(() => {
       isModalOpen.value = false;
       setTimeout(() => {
-        editingProduct.value = null;
+        editingOrder.value = null;
       }, 300);
     }, 0);
     console.log("Modal closed");
@@ -24,7 +24,7 @@ export const useModal = defineStore("modal", () => {
 
   return {
     isModalOpen,
-    editingProduct,
+    editingOrder,
     openModal,
     closeModal,
   };
