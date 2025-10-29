@@ -39,7 +39,7 @@ class DisheController {
         }
     };
     Update = async (req: Request, res: Response): Promise<Response> => {
-        console.log(req.params.id , req.body   )
+        console.log(req.params.id , req.body)
     try {
        const id = parseInt(req.params.id, 10);
         console.log(id)
