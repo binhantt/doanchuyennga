@@ -60,14 +60,7 @@ const columns = [
             },
             "Xem"
           ),
-          h(
-            "a",
-            {
-              class: "text-red-500 hover:underline cursor-pointer",
-              onClick: () => handleDelete(record.id),
-            },
-            "Xóa"
-          ),
+    
         ]
       ),
   },
@@ -81,29 +74,7 @@ const fetchOrders = async () => {
   }
 };
 
-const handleDelete = async (id : any) => {
-  Modal.confirm({
-    title: 'Xác nhận xóa',
-    content: 'Bạn có chắc chắn muốn xóa đơn hàng này không?',
-    okText: 'Xóa',
-    okType: 'danger',
-    cancelText: 'Hủy',
-    async onOk() {
-      try {
-        await ordersStore.deleteById(id); // Nếu có hàm xóa đơn hàng
-        message.success('Xóa đơn hàng thành công!');
-        // Sau khi xóa, có thể gọi lại fetchOrders để cập nhật bảng
-        await fetchOrders();
-      } catch (error) {
-        console.error('❌ Lỗi khi xóa đơn hàng:', error);
-        message.error('Có lỗi xảy ra khi xóa đơn hàng');
-      }
-    },
-    onCancel() {
-      console.log('Hủy xóa');
-    },
-  });
-};
+
 const handleSave = ()=>{
 
 }

@@ -14,30 +14,24 @@
       :wrapper-col="wrapperCol"
     >
     <FormItem :items="userItems" />
+    <a-divider>Mã giảm giá</a-divider>
+    <FormItem :items="voucherItems" />
     <a-divider>Món ăn</a-divider>
-    <a-table :columns="dishColumns" :data-source="formState.dishes" :pagination="false">
-        <template #bodyCell="{ column, text }">
-          <template v-if="column.dataIndex === 'price'">
-            <span>{{ formatCurrency(text) }}</span>
-          </template>
-          <template v-if="column.dataIndex === 'images'">
-            <Image v-if="text && text.length > 0" :src="text[0]" />
-          </template>
-        </template>
-      </a-table>
+    <TableSelect :columns="dishColumns" :data="formState.dishes" :pagination="false" />
     </a-form>
     <Text class="flex justify-end mt-3" :label="'Tổng cộng'" :value="formatCurrency(formState.totalAmount)" />
   </ModalSelect >
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { reactive, ref, watch, h } from 'vue';
 import type { UnwrapRef } from 'vue';
 import type { Rule } from 'ant-design-vue/es/form';
 import type { Order } from '../index';
 import Image from '../../../components/common/bard/Image.vue';
 import ModalSelect from '../../../components/common/modal/modalselect.vue';
 import FormItem from '../../../components/common/menu/form-item.vue';
+import TableSelect from '../../../components/common/table/TableSelect.vue';
 import { computed } from 'vue';
 import Text from '../../../components/common/bard/text.vue';
 
@@ -51,7 +45,7 @@ const emit = defineEmits(['update:isOpen', 'save']);
 const formRef = ref();
 const open = ref<boolean>(props.isOpen);
 const title = ref<string>('Chi tiết đơn hàng');
-
+console.log(props.order);
 const formState: UnwrapRef<Order> = reactive({
   id: 0,
   eventDate: '',
@@ -67,6 +61,13 @@ const formState: UnwrapRef<Order> = reactive({
     phoneNumber: '',
     address: '',
   },
+  vouchers: {
+    id: 0,
+    code: '',
+    description: '',
+    type: '',
+    value: '',
+  },
   dishes: [],
 });
 
@@ -78,6 +79,18 @@ const userItems = computed(() => [
   { label: 'Địa chỉ', value: formState.user.address },
 ]);
 
+const voucherItems = computed(() => {
+  if (formState.vouchers) {
+    return [
+      { label: 'Mã giảm giá', value: formState.vouchers.code },
+      { label: 'Mô tả', value: formState.vouchers.description },
+      { label: 'Loại', value: formState.vouchers.type },
+      { label: 'Giá trị', value: formState.vouchers.value },
+    ];
+  }
+  return [];
+});
+
 const rules: Record<string, Rule[]> = {}; // No validation needed for display modal
 
 const labelCol = { span: 6 };
@@ -87,10 +100,20 @@ const dishColumns = [
   { title: 'ID', dataIndex: 'id', key: 'id' },
   { title: 'Tên món', dataIndex: 'name', key: 'name' },
   { title: 'Số lượng', dataIndex: 'quantity', key: 'quantity' },
-  { title: 'Giá', dataIndex: 'price', key: 'price' },
-  { title: 'Hình ảnh', dataIndex: 'images', key: 'images' },
+  {
+    title: 'Giá',
+    dataIndex: 'price',
+    key: 'price',
+    customRender: ({ text }: { text: string | number }) => formatCurrency(text),
+  },
+  {
+    title: 'Hình ảnh',
+    dataIndex: 'images',
+    key: 'images',
+    customRender: ({ text }: { text: string[] }) =>
+      text && text.length > 0 ? h(Image, { src: text[0] }) : null,
+  },
 ];
-
 const formatCurrency = (value: string | number) => {
   return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(value));
 };
@@ -105,8 +128,18 @@ watch(
 watch(
   () => props.order,
   (val) => {
+    
     if (val) {
-      Object.assign(formState, val);
+      formState.id = val.id;
+      formState.eventDate = val.eventDate;
+      formState.guestCount = val.guestCount;
+      formState.totalAmount = val.totalAmount;
+      formState.discountAmount = val.discountAmount;
+      formState.finalAmount = val.finalAmount;
+      formState.status = val.status;
+      formState.user = val.user;
+      formState.vouchers = val.vouchers;
+      formState.dishes = val.dishes || [];
     }
   },
 );
