@@ -5,6 +5,8 @@ import AthuController from "../Controller/AthuController";
 import DisheController from "../Controller/DishesController";
 import OrderCotroller from "../Controller/OrderCotroller";
 import CategroyCotroller from "../Controller/CategroyCotroller";
+import VoucherController from "../Controller/VoucherCotrollers";
+
 const router = Router();
 export const AdminRouter = buildGroupedRoutes(router, [
   {
@@ -107,6 +109,41 @@ export const AdminRouter = buildGroupedRoutes(router, [
         handler  : OrderCotroller.CreateOrderfood,
       }
       
+    ]
+  },
+  {
+    basePath: "/vouchers",
+    routes: [
+      {
+        method: "get",
+        path: "/",
+        handler: VoucherController.getAllVouchers,
+      },
+      {
+        method: "get",
+        path: "/:id",
+        handler: VoucherController.getVoucherById,
+      },
+      {
+        method: "get",
+        path: "/code/:code",
+        handler: VoucherController.getVoucherByCode,
+      },
+      {
+        method: "post",
+        path: "/create",
+        handler: VoucherController.createVoucher,
+      },
+      {
+        method: "put",
+        path: "/update/:id",
+        handler: VoucherController.updateVoucher,
+      },
+      {
+        method: "delete",
+        path: "/delete/:id",
+        handler: VoucherController.deleteVoucher,
+      }
     ]
   }
 ]);

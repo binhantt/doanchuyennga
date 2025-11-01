@@ -13,13 +13,12 @@ export const useOrderModal = defineStore("orderModal", () => {
   };
 
   const closeModal = () => {
-    setTimeout(() => {
-      isModalOpen.value = false;
-      setTimeout(() => {
-        editingOrder.value = null;
-      }, 300);
-    }, 0);
+    isModalOpen.value = false;
     console.log("Modal closed");
+    // Đặt editingOrder về null sau khi modal đã đóng hoàn toàn
+    setTimeout(() => {
+      editingOrder.value = null;
+    }, 300);
   };
 
   return {

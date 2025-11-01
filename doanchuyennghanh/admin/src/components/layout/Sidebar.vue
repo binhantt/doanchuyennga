@@ -51,7 +51,9 @@ const menuItems: SidebarItemType[] = [
       { name: "Dịch vụ", icon: ICONS.Orders, path: "/admin/dashboard/orders/services" }
     ]
    },
+   {name : "Mã giảm giá", icon: ICONS.Coupon, path: "/admin/dashboard/coupons"},
   { name: "Báo cáo", icon: ICONS.Reports, path: "/admin/dashboard/reports" },
+  // { name: "Đánh giá", icon: ICONS.Reviews, path: "/admin/dashboard/reviews" },
   { name: "Cài đặt", icon: ICONS.Settings, section: "CẤU HÌNH", path: "/admin/dashboard/settings" },
   { name: "Tài khoản", icon: ICONS.Account, path: "/admin/dashboard/account" },
   { name: "Đăng xuất", icon: ICONS.Logout, path: "/admin/dashboard/logout" },

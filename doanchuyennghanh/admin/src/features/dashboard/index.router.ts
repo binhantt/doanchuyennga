@@ -6,6 +6,7 @@ import home from "../home/index.router"
 import categories from "../categories/index.router"
 import users from "../users/index.router"
 import order from "../order/index.router"
+import coupons from "../coupons/index.router"
 export default [
   {
     path: "/admin/dashboard",  
@@ -17,7 +18,8 @@ export default [
       ...products,
       ...categories,
       ...users,
-      ...order
+      ...order,
+      ...coupons
     ]
   }
 ]

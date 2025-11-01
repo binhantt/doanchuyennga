@@ -99,7 +99,7 @@ export class CreateOrderUseCase {
 
     return {
       order: orderRow,
-      dishes: dishesToInsert
+      dishes: dishesToInsert as unknown as OrderDish[]
     };
   }
 }

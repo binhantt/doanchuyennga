@@ -13,12 +13,14 @@ import {
    DeleteOutlined ,
    RetweetOutlined, 
     DashboardOutlined, UserOutlined, ShoppingOutlined, FileTextOutlined, SettingOutlined, LogoutOutlined,
-    FolderOutlined
+    FolderOutlined,
+    AuditOutlined
 } from "@ant-design/icons-vue";
 
 export const ICONS = {
     Dashboard: DashboardOutlined,
     Edit : EditOutlined, 
+    Coupon: AuditOutlined,
     Delete : DeleteOutlined,
     Users: UserOutlined,
     Categories: FileTextOutlined,
