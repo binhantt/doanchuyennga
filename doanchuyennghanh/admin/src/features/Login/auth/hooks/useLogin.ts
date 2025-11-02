@@ -8,14 +8,14 @@ export function useLogin() {
 
   const login = async (data: LoginRequest): Promise<LoginResponse | void> => {
     try {
-
       const res = await authApi.login(data);
-      console.log(data)
-      if (res.token) {
-        localStorage.setItem("admin_token", res.token);
+      const token = res?.token ?? res?.user?.token;
+      if (token) {
+        console.log(token);
+        document.cookie = `token=${token}; path=/;`
         toast.success("Đăng nhập thành công!", { autoClose: 2000 });
         await router.push("/admin/dashboard");
-        return res as LoginResponse;
+        return { token, user: res.user } as LoginResponse;
       } else {
         throw new Error("Token không tồn tại trong phản hồi.");
       }

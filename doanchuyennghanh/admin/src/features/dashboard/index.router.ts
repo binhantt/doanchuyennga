@@ -12,7 +12,7 @@ export default [
     path: "/admin/dashboard",  
     name: "dashboard",
     component: index , 
-    meta: { title: "Bảng điều khiển" ,  icon :  ICON_PATHS.Dashboard } , 
+    meta: { title: "Bảng điều khiển" ,  icon :  ICON_PATHS.Dashboard, requiresAuth: true } , 
     children: [  
       ...home,
       ...products,
