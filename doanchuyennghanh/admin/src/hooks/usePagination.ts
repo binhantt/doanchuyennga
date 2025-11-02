@@ -8,8 +8,6 @@ export function usePagination<T>(data: T[] | Ref<T[]>, defaultPageSize = 3) {
 
   // Chuẩn hóa data thành Ref
   const dataArray = ref(Array.isArray(data) ? data : unref(data)) as Ref<T[]>;
-
-  // Lấy page từ URL (nếu có)
   const currentFromQuery = Number(route.query.tab) || 1;
 
   // Pagination state
