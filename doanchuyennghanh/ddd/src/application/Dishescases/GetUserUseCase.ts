@@ -14,7 +14,6 @@ export class GetUserUseCase {
     "d.is_available",
     "c.name as category_name"
   );
-
     return dishes;
   }
 }

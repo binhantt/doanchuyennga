@@ -6,6 +6,10 @@ import DisheController from "../Controller/DishesController";
 import OrderCotroller from "../Controller/OrderCotroller";
 import CategroyCotroller from "../Controller/CategroyCotroller";
 import VoucherController from "../Controller/VoucherCotrollers";
+import WeddingPackageController from "../Controller/WeddingPackageController";
+import PackageDishController from "../Controller/PackageDishController";
+import OrderController from "../Controller/OrderController";
+import PackageController from "../Controller/PackageController";
 
 const router = Router();
 export const AdminRouter = buildGroupedRoutes(router, [
@@ -99,16 +103,50 @@ export const AdminRouter = buildGroupedRoutes(router, [
     basePath: "/orders",
     routes: [
       {
-        method: "get",  
-        path : "/getall",
-        handler  : OrderCotroller.getAllOrders,
+        method: "get",
+        path: "/",
+        handler: OrderController.GetAll,
       },
       {
-        method: "post",  
-        path : "/create_food",
-        handler  : OrderCotroller.CreateOrderfood,
+        method: "get",
+        path: "/statistics",
+        handler: OrderController.GetStatistics,
+      },
+      {
+        method: "get",
+        path: "/date-range",
+        handler: OrderController.GetByDateRange,
+      },
+      {
+        method: "get",
+        path: "/status/:status",
+        handler: OrderController.GetByStatus,
+      },
+      {
+        method: "get",
+        path: "/user/:userId",
+        handler: OrderController.GetByUserId,
+      },
+      {
+        method: "get",
+        path: "/:id",
+        handler: OrderController.GetById,
+      },
+      {
+        method: "post",
+        path: "/create",
+        handler: OrderController.Create,
+      },
+      {
+        method: "post",
+        path: "/create-with-voucher",
+        handler: OrderController.CreateWithVoucher,
+      },
+      {
+        method: "put",
+        path: "/update-status/:id",
+        handler: OrderController.UpdateStatus,
       }
-      
     ]
   },
   {
@@ -143,6 +181,121 @@ export const AdminRouter = buildGroupedRoutes(router, [
         method: "delete",
         path: "/delete/:id",
         handler: VoucherController.deleteVoucher,
+      }
+    ]
+  },
+  {
+    basePath: "/wedding-packages",
+    routes: [
+      {
+        method: "get",
+        path: "/",
+        handler: WeddingPackageController.GetAll,
+      },
+      {
+        method: "get",
+        path: "/available",
+        handler: WeddingPackageController.GetAvailable,
+      },
+      {
+        method: "get",
+        path: "/:id",
+        handler: WeddingPackageController.GetById,
+      },
+      {
+        method: "post",
+        path: "/create",
+        handler: WeddingPackageController.Create,
+      }
+    ]
+  },
+  {
+    basePath: "/package-dishes",
+    routes: [
+      {
+        method: "get",
+        path: "/",
+        handler: PackageDishController.GetAll,
+      },
+      {
+        method: "get",
+        path: "/package/:packageId",
+        handler: PackageDishController.GetByPackageId,
+      },
+      {
+        method: "get",
+        path: "/dish/:dishId",
+        handler: PackageDishController.GetByDishId,
+      },
+      {
+        method: "post",
+        path: "/create",
+        handler: PackageDishController.Create,
+      },
+      {
+        method: "post",
+        path: "/add-multiple-wedding",
+        handler: PackageDishController.AddMultipleDishesToWeddingPackage,
+      },
+      {
+        method: "post",
+        path: "/add-multiple-general",
+        handler: PackageDishController.AddMultipleDishesToGeneralPackage,
+      },
+      {
+        method: "put",
+        path: "/update-quantity/:id",
+        handler: PackageDishController.UpdateQuantity,
+      },
+      {
+        method: "delete",
+        path: "/delete/:id",
+        handler: PackageDishController.Delete,
+      }
+    ]
+  },
+  {
+    basePath: "/packages",
+    routes: [
+      {
+        method: "get",
+        path: "/",
+        handler: PackageController.GetAll,
+      },
+      {
+        method: "get",
+        path: "/available",
+        handler: PackageController.GetAvailable,
+      },
+      {
+        method: "get",
+        path: "/types",
+        handler: PackageController.GetPackageTypes,
+      },
+      {
+        method: "get",
+        path: "/type/:type",
+        handler: PackageController.GetByType,
+      },
+      {
+        method: "get",
+        path: "/:id",
+        handler: PackageController.GetById,
+      },
+      {
+        method: "post",
+        path: "/create",
+        handler: PackageController.Create,
+      },
+      {
+        method: "put",
+        path: "/update/:id",
+        handler: PackageController.Update,
+      },
+      {
+        method: "delete",
+        path: "/delete/:id",
+        handler: PackageController.Delete,
       }
     ]
   }

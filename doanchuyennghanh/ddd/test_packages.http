@@ -1,0 +1,112 @@
+### Test Packages API
+
+### 1. Tạo gói cưới
+POST http://localhost:3000/api/v1/admin/packages/create
+Content-Type: application/json
+
+{
+    "name": "Gói Cưới Cơ Bản",
+    "description": "Gói cưới cơ bản với đầy đủ dịch vụ thiết yếu",
+    "price": 20000000,
+    "max_guests": 100,
+    "package_type": "wedding",
+    "image_url": "https://example.com/wedding-basic.jpg",
+    "is_available": true
+}
+
+### 2. Tạo gói sinh nhật
+POST http://localhost:3000/api/v1/admin/packages/create
+Content-Type: application/json
+
+{
+    "name": "Gói Sinh Nhật Trẻ Em",
+    "description": "Gói tổ chức sinh nhật cho trẻ em với nhiều hoạt động vui chơi",
+    "price": 5000000,
+    "max_guests": 30,
+    "package_type": "birthday",
+    "image_url": "https://example.com/birthday-kids.jpg",
+    "is_available": true
+}
+
+### 3. Tạo gói doanh nghiệp
+POST http://localhost:3000/api/v1/admin/packages/create
+Content-Type: application/json
+
+{
+    "name": "Gói Hội Nghị Doanh Nghiệp",
+    "description": "Gói tổ chức hội nghị, sự kiện doanh nghiệp chuyên nghiệp",
+    "price": 15000000,
+    "max_guests": 200,
+    "package_type": "corporate",
+    "image_url": "https://example.com/corporate-meeting.jpg",
+    "is_available": true
+}
+
+### 4. Lấy tất cả gói dịch vụ
+GET http://localhost:3000/api/v1/admin/packages/
+
+### 5. Lấy gói dịch vụ có sẵn
+GET http://localhost:3000/api/v1/admin/packages/available
+
+### 6. Lấy gói dịch vụ theo ID
+GET http://localhost:3000/api/v1/admin/packages/1
+
+### 7. Lấy gói dịch vụ theo loại (wedding)
+GET http://localhost:3000/api/v1/admin/packages/type/wedding
+
+### 8. Lấy gói dịch vụ theo loại (birthday)
+GET http://localhost:3000/api/v1/admin/packages/type/birthday
+
+### 9. Lấy gói dịch vụ theo loại (corporate)
+GET http://localhost:3000/api/v1/admin/packages/type/corporate
+
+### 10. Lấy tất cả loại gói dịch vụ
+GET http://localhost:3000/api/v1/admin/packages/types
+
+### 11. Cập nhật gói dịch vụ
+PUT http://localhost:3000/api/v1/admin/packages/update/1
+Content-Type: application/json
+
+{
+    "name": "Gói Cưới Cơ Bản - Cập Nhật",
+    "price": 22000000,
+    "description": "Gói cưới cơ bản với dịch vụ được nâng cấp"
+}
+
+### 12. Xóa gói dịch vụ
+DELETE http://localhost:3000/api/v1/admin/packages/delete/1
+
+### 13. Test với dữ liệu không hợp lệ (thiếu tên)
+POST http://localhost:3000/api/v1/admin/packages/create
+Content-Type: application/json
+
+{
+    "description": "Gói không có tên",
+    "price": 10000000,
+    "max_guests": 50,
+    "package_type": "wedding"
+}
+
+### 14. Test với loại gói không hợp lệ
+POST http://localhost:3000/api/v1/admin/packages/create
+Content-Type: application/json
+
+{
+    "name": "Gói Loại Sai",
+    "description": "Test loại gói không hợp lệ",
+    "price": 10000000,
+    "max_guests": 50,
+    "package_type": "invalid_type"
+}
+
+### 15. Test với giá âm
+POST http://localhost:3000/api/v1/admin/packages/create
+Content-Type: application/json
+
+{
+    "name": "Gói Giá Âm",
+    "description": "Test giá âm",
+    "price": -1000000,
+    "max_guests": 50,
+    "package_type": "wedding"
+}

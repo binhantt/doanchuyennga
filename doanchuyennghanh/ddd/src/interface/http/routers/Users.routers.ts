@@ -1,6 +1,7 @@
 import { Router  } from "express";
 import { buildGroupedRoutes } from "../../../shared";
 import UserController from "../Controller/UserController";
+import ServicesControllers from "../Controller/ServicesControllers";
 const router = Router();
 export const userRoutes = buildGroupedRoutes(router, [
   {
@@ -13,4 +14,14 @@ export const userRoutes = buildGroupedRoutes(router, [
       },
     ],
   },
+  {
+    basePath : "/services",
+    routes :[
+      {
+        method: "post",  
+        path: "/create",
+        handler : ServicesControllers.Create
+      }
+    ]
+  }
 ]);

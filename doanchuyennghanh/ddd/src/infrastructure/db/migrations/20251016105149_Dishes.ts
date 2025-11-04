@@ -1,7 +1,13 @@
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema.createTable("Dishes", (table) => {
+  // Nếu bảng đã tồn tại, xóa trước để tránh lỗi trùng tên
+  const hasTable = await knex.schema.hasTable("dishes");
+  if (hasTable) {
+    await knex.schema.dropTable("dishes");
+  }
+
+  await knex.schema.createTable("dishes", (table) => {
     table.increments("id").primary(); // PK
     table.string("name", 255).notNullable();
     table.text("description");
@@ -14,5 +20,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.schema.dropTableIfExists("products");
+  await knex.schema.dropTableIfExists("dishes");
 }

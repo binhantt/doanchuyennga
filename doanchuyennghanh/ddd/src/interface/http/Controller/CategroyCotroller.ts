@@ -19,9 +19,9 @@ class CateGoryController {
  }
   Creacte  = async(req: Request, res: Response): Promise<Response> =>{
     try {
-      const { name, image_url } = req.body;
+      const { name, image_url ,category_id } = req.body;
       const createCateUseCase = new CreateCateUseCase(db);
-      const cateData: CreateCateDTO = {name,  image_url,};
+      const cateData: CreateCateDTO = {name,  image_url, category_id};
       const newCate = await createCateUseCase.execute(cateData);
       
         return res.status(201).json({ success: true, data: newCate });

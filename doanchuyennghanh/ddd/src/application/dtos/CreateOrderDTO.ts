@@ -1,13 +1,11 @@
 export class CreateOrderDTO {
     constructor( 
-        public userId: number,
-        public packageId: number | null,
-        public voucherId: number | null,
-        public eventDate: string,
-        public guestCount: number,
-        public totalAmount: number,
-        public discountAmount: number,
-        public finalAmount: number,
-        public status: 'pending' | 'confirmed' | 'cancelled' | 'completed' = 'pending',
+        public user_id: number,
+        public event_date: string,
+        public guest_count: number,
+        public total_amount: number,
+        public discount_amount: number = 0,
+        public final_amount: number,
+        public status: 'pending' | 'confirmed' | 'cancelled' | 'completed' = 'pending'
     ) {}
 }
