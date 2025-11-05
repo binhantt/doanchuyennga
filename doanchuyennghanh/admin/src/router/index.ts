@@ -3,6 +3,9 @@ import adminRoutes from '../features/Login/index.router'
 import dashboardRouter from '../features/dashboard/index.router'
 import logoutRouter from '../features/logout/index.router'
 
+
+
+
 // Khai báo routes
 const routes = [
   { path: '/', redirect: '/login' ,  },

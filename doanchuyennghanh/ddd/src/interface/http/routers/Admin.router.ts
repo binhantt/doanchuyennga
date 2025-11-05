@@ -10,6 +10,7 @@ import WeddingPackageController from "../Controller/WeddingPackageController";
 import PackageDishController from "../Controller/PackageDishController";
 import OrderController from "../Controller/OrderController";
 import PackageController from "../Controller/PackageController";
+import ServiceControllers from "../Controller/ServicesControllers";
 
 const router = Router();
 export const AdminRouter = buildGroupedRoutes(router, [
@@ -296,6 +297,46 @@ export const AdminRouter = buildGroupedRoutes(router, [
         method: "delete",
         path: "/delete/:id",
         handler: PackageController.Delete,
+      }
+    ]
+  },
+  {
+    basePath: "/services",
+    routes: [
+      {
+        method: "get",
+        path: "/",
+        handler: ServiceControllers.GetAll,
+      },
+      {
+        method: "get",
+        path: "/available",
+        handler: ServiceControllers.GetAvailable,
+      },
+      {
+        method: "get",
+        path: "/category/:categoryId",
+        handler: ServiceControllers.GetByCategory,
+      },
+      {
+        method: "get",
+        path: "/:id",
+        handler: ServiceControllers.GetById,
+      },
+      {
+        method: "post",
+        path: "/create",
+        handler: ServiceControllers.Create,
+      },
+      {
+        method: "put",
+        path: "/update/:id",
+        handler: ServiceControllers.Update,
+      },
+      {
+        method: "delete",
+        path: "/delete/:id",
+        handler: ServiceControllers.Delete,
       }
     ]
   }

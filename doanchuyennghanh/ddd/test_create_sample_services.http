@@ -1,0 +1,40 @@
+### Tạo dữ liệu mẫu cho Services
+
+### 1. Tạo dịch vụ trang trí
+POST http://localhost:3000/api/v1/admin/services/create
+Content-Type: application/json
+
+{
+    "name": "Dịch vụ trang trí cưới",
+    "description": "Dịch vụ trang trí cưới sang trọng với hoa tươi và đèn led",
+    "price": 5000000,
+    "category_id": 1,
+    "image_url": "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500",
+    "is_available": true
+}
+
+### 2. Tạo dịch vụ chụp ảnh
+POST http://localhost:3000/api/v1/admin/services/create
+Content-Type: application/json
+
+{
+    "name": "Dịch vụ chụp ảnh cưới",
+    "description": "Chụp ảnh cưới chuyên nghiệp với photographer kinh nghiệm",
+    "price": 8000000,
+    "category_id": 1,
+    "image_url": "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=500",
+    "is_available": true
+}
+
+### 3. Tạo dịch vụ âm thanh
+POST http://localhost:3000/api/v1/admin/services/create
+Content-Type: application/json
+
+{
+    "name": "Dịch vụ âm thanh ánh sáng",
+    "description": "Hệ thống âm thanh và ánh sáng chuyên nghiệp cho tiệc cưới",
+    "price": 3000000,
+    "category_id": 1,
+    "image_url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=500",
+    "is_available": true
+}

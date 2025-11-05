@@ -44,7 +44,7 @@ import { PlusOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons-
 import BaseInput from "../input/BaseInput.vue";
 import BaseButton from "../button/BaseButton.vue";
 
-defineProps<{
+const props = defineProps<{
   columns: any[];
   data?: any[];
   loading?: boolean;

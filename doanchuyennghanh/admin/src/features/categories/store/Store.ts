@@ -17,29 +17,40 @@ export const useCategoriesStore = defineStore("categories", () => {
       loading.value = false;
     }
   };
+
   const updateCategory = async (id: string, data: Category) => {
     try {
-      await Api.update(id, {
+      // Call API update
+      const updatedCategory = await Api.update(id, {
         name: data.name,
-        image_url: data.image_url || ''
+        image_url: data.image_url || '',
+        category_id: data.category_id || 0,
       });
-      
-      const index = categories.value.findIndex((c) => c.id === id);
-      if (index !== -1) {
-        categories.value[index] = { ...categories.value[index], ...data };
+
+      if (updatedCategory) {
+       
+        const index = categories.value.findIndex(category => category.id === id);
+
+        if (index !== -1) {
+          categories.value[index] = updatedCategory;
+        }
+        console.log(updateCategory)
+        message.success("Cập nhật danh mục thành công!");
+        return true;
       }
-      message.success("Cập nhật danh mục thành công!");
-      return true;
     } catch (err) {
       console.error(err);
       message.error("Cập nhật danh mục thất bại");
       return false;
     }
   };
-
   const createCategory = async (data: Category) => {
     try {
-      const response = await Api.create({name : data.name , image_url : data.image_url});
+      const response = await Api.create({
+        name: data.name,
+        image_url: data.image_url,
+        category_id: data.category_id || 0
+      });
       categories.value.push(response.data);
       message.success("Thêm danh mục thành công!");
       return true;
@@ -50,12 +61,12 @@ export const useCategoriesStore = defineStore("categories", () => {
     }
   };
 
-  const deleteById = async (id: string , index: number)  => {
+  const deleteById = async (id: string)  => {
+    console.log(id)
     try {
       await Api.delete(id);     
-      if (index !== -1) {
-        categories.value.splice(index, 1);
-      }
+      
+      categories.value = categories.value.filter(cat =>cat.id !== id);
       message.success("Xóa danh mục thành công!");
     } catch (err) {
       console.error(err);

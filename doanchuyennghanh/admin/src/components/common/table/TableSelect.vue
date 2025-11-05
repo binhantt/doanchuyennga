@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+
 
 defineProps<{
   columns: any[];
@@ -38,7 +38,6 @@ defineProps<{
 
 defineEmits(["add", "refresh", "change"]);
 
-const searchValue = ref("");
 </script>
 
 
