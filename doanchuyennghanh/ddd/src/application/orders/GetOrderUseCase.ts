@@ -5,13 +5,14 @@ import { OrderDish } from "../../domain/entities/OrderDish";
 export class GetOrderUseCase {
   constructor(private db: Knex) {}
 
-  async getById(id: number): Promise<{order: Order, dishes: any[]} | null> {
+  async getById(id: number): Promise<{order: Order, dishes: any[], wedding_package?: any, service?: any} | null> {
     const order = await this.db("orders").where({ id }).first();
     
     if (!order) {
       return null;
     }
 
+    // Lấy dishes
     const dishes = await this.db("order_dishes")
       .join("dishes", "order_dishes.dish_id", "dishes.id")
       .where("order_dishes.order_id", id)
@@ -21,6 +22,27 @@ export class GetOrderUseCase {
         "dishes.description as dish_description",
         "dishes.image_url as dish_image_url"
       );
+
+    // Lấy wedding package nếu có
+    let wedding_package = null;
+    if (order.wedding_package_id) {
+      wedding_package = await this.db("wedding_packages")
+        .where({ id: order.wedding_package_id })
+        .first();
+    }
+
+    // Lấy service nếu có
+    let service = null;
+    if (order.service_id) {
+      service = await this.db("services")
+        .leftJoin("categories", "services.category_id", "categories.id")
+        .where("services.id", order.service_id)
+        .select(
+          "services.*",
+          "categories.name as category_name"
+        )
+        .first();
+    }
 
     const orderEntity = new Order(
       order.id,
@@ -32,12 +54,19 @@ export class GetOrderUseCase {
       order.final_amount,
       order.status,
       order.created_at,
-      order.updated_at
+      order.updated_at,
+      order.wedding_package_id,
+      order.service_id,
+      order.notes,
+      order.order_type,
+      order.event_address
     );
 
     return {
       order: orderEntity,
-      dishes: dishes
+      dishes: dishes,
+      wedding_package: wedding_package,
+      service: service
     };
   }
 
@@ -48,7 +77,9 @@ export class GetOrderUseCase {
       .select(
         "orders.*",
         "users.username",
-        "users.email"
+        "users.email",
+        "users.phoneNumber",
+        "users.address as customer_address"
       )
       .orderBy("orders.created_at", "desc");
 
@@ -58,11 +89,16 @@ export class GetOrderUseCase {
   async getAll(): Promise<any[]> {
     const orders = await this.db("orders")
       .join("users", "orders.user_id", "users.id")
+      .leftJoin("wedding_packages", "orders.wedding_package_id", "wedding_packages.id")
+      .leftJoin("services", "orders.service_id", "services.id")
       .select(
         "orders.*",
         "users.username",
         "users.email",
-        "users.phoneNumber"
+        "users.phoneNumber",
+        "users.address as customer_address",
+        "wedding_packages.name as wedding_package_name",
+        "services.name as service_name"
       )
       .orderBy("orders.created_at", "desc");
 
@@ -76,7 +112,9 @@ export class GetOrderUseCase {
       .select(
         "orders.*",
         "users.username",
-        "users.email"
+        "users.email",
+        "users.phoneNumber",
+        "users.address as customer_address"
       )
       .orderBy("orders.created_at", "desc");
 
@@ -139,7 +177,9 @@ export class GetOrderUseCase {
       .select(
         "orders.*",
         "users.username",
-        "users.email"
+        "users.email",
+        "users.phoneNumber",
+        "users.address as customer_address"
       )
       .orderBy("orders.event_date", "asc");
 

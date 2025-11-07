@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { buildGroupedRoutes } from "../../../shared";
+import { uploadSingle } from "../../../infrastructure/http/multer";
 import UserController from "../Controller/UserController";
 import AthuController from "../Controller/AthuController";
 import DisheController from "../Controller/DishesController";
-import OrderCotroller from "../Controller/OrderCotroller";
 import CategroyCotroller from "../Controller/CategroyCotroller";
 import VoucherController from "../Controller/VoucherCotrollers";
 import WeddingPackageController from "../Controller/WeddingPackageController";
@@ -148,6 +148,26 @@ export const AdminRouter = buildGroupedRoutes(router, [
         method: "put",
         path: "/update-status/:id",
         handler: OrderController.UpdateStatus,
+      },
+      {
+        method: "post",
+        path: "/check-voucher",
+        handler: OrderController.CheckVoucher,
+      },
+      {
+        method: "get",
+        path: "/print",
+        handler: OrderController.PrintOrders,
+      },
+      {
+        method: "get",
+        path: "/service/order/:orderId",
+        handler: OrderController.GetServiceByOrderId,
+      },
+      {
+        method: "get",
+        path: "/service/:serviceId",
+        handler: OrderController.GetServiceById,
       }
     ]
   },
@@ -195,19 +215,39 @@ export const AdminRouter = buildGroupedRoutes(router, [
         handler: WeddingPackageController.GetAll,
       },
       {
-        method: "get",
-        path: "/available",
-        handler: WeddingPackageController.GetAvailable,
-      },
-      {
-        method: "get",
-        path: "/:id",
-        handler: WeddingPackageController.GetById,
-      },
-      {
         method: "post",
         path: "/create",
-        handler: WeddingPackageController.Create,
+        handler: (req: any, res: any) => {
+          uploadSingle(req, res, (err: any) => {
+            if (err) {
+              return res.status(400).json({
+                success: false,
+                error: err.message
+              });
+            }
+            WeddingPackageController.Create(req, res);
+          });
+        },
+      },
+      {
+        method: "put",
+        path: "/update/:id",
+        handler: (req: any, res: any) => {
+          uploadSingle(req, res, (err: any) => {
+            if (err) {
+              return res.status(400).json({
+                success: false,
+                error: err.message
+              });
+            }
+            WeddingPackageController.Update(req, res);
+          });
+        },
+      },
+      {
+        method: "delete",
+        path: "/delete/:id",
+        handler: WeddingPackageController.Delete,
       }
     ]
   },
@@ -395,5 +435,6 @@ export const AdminRouter = buildGroupedRoutes(router, [
         handler: ServiceDishController.Delete,
       }
     ]
-  }
+  },
+
 ]);

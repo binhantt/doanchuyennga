@@ -9,6 +9,11 @@ export class Order {
     public final_amount: number,
     public status: 'pending' | 'confirmed' | 'cancelled' | 'completed',
     public created_at?: Date,
-    public updated_at?: Date
+    public updated_at?: Date,
+    public wedding_package_id?: number | null,
+    public service_id?: number | null,
+    public notes?: string | null,
+    public order_type?: 'dishes_only' | 'with_wedding_package' | 'with_service' | 'mixed',
+    public event_address?: string | null
   ) {}
 }

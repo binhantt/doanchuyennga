@@ -6,8 +6,12 @@ export const get = async () => {
 };
 
 export const create = async (packageData: FormData) => {
-  console.log(packageData);
-  const res = await axios.post("http://localhost:3000/api/v1/admin/wedding-packages/create", packageData);
+  console.log("📡 Sending create request with data:", packageData);
+  const res = await axios.post("http://localhost:3000/api/v1/admin/wedding-packages/create", packageData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return res.data;
 };
 

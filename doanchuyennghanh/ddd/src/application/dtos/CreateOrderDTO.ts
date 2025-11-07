@@ -6,6 +6,11 @@ export class CreateOrderDTO {
         public total_amount: number,
         public discount_amount: number = 0,
         public final_amount: number,
-        public status: 'pending' | 'confirmed' | 'cancelled' | 'completed' = 'pending'
+        public status: 'pending' | 'confirmed' | 'cancelled' | 'completed' = 'pending',
+        public wedding_package_id?: number | null,
+        public service_id?: number | null,
+        public notes?: string | null,
+        public order_type: 'dishes_only' | 'with_wedding_package' | 'with_service' | 'mixed' = 'dishes_only',
+        public event_address?: string | null
     ) {}
 }

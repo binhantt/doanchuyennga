@@ -1,0 +1,430 @@
+### Test tạo order chỉ với dishes (khách hàng mới)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "event_date": "2024-12-25",
+  "guest_count": 50,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Nguyễn Văn A",
+    "email": "nguyenvana@email.com",
+    "phoneNumber": "0123456789",
+    "address": "123 Đường ABC, Quận 1, TP.HCM"
+  },
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 2
+    },
+    {
+      "dish_id": 2,
+      "quantity": 1
+    }
+  ]
+}
+
+### Test tạo order với user_id có sẵn
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "event_date": "2024-12-26",
+  "guest_count": 30,
+  "discount_amount": 0,
+  "status": "pending",
+  "user_id": 1,
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 1
+    }
+  ]
+}
+
+### Test tạo order với wedding package (khách hàng mới)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "event_date": "2024-12-25",
+  "guest_count": 100,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Trần Thị B",
+    "email": "tranthib@email.com",
+    "phoneNumber": "0987654321",
+    "address": "456 Đường XYZ, Quận 2, TP.HCM"
+  },
+  "wedding_package_id": 1,
+  "notes": "Đặt gói cưới cao cấp cho ngày 25/12"
+}
+
+
+
+### Test tạo order với service (khách hàng mới)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "event_date": "2024-12-28",
+  "guest_count": 40,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Võ Thị F",
+    "email": "vothif@email.com",
+    "phoneNumber": "0741852963",
+    "address": "987 Đường MNO, Quận 6, TP.HCM"
+  },
+  "service_id": 1,
+  "notes": "Đặt dịch vụ trang trí"
+}
+
+### Test tạo order mixed (wedding package + dishes)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "order": {
+    "user_id": 1,
+    "event_date": "2024-12-31",
+    "guest_count": 150,
+    "total_amount": 0,
+    "discount_amount": 0,
+    "final_amount": 0,
+    "status": "pending"
+  },
+  "wedding_package_id": 1,
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 3
+    }
+  ],
+  "notes": "Gói cưới + thêm món đặc biệt"
+}
+
+### Test tạo order mixed (general package + wedding package + dishes)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "order": {
+    "user_id": 1,
+    "event_date": "2025-01-15",
+    "guest_count": 200,
+    "total_amount": 0,
+    "discount_amount": 0,
+    "final_amount": 0,
+    "status": "pending"
+  },
+  "wedding_package_id": 1,
+  "package_id": 1,
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 2
+    },
+    {
+      "dish_id": 2,
+      "quantity": 1
+    }
+  ],
+  "notes": "Combo đầy đủ: gói cưới + gói tiệc + món thêm"
+}
+
+### Test tạo voucher trước
+POST http://localhost:3000/api/v1/admin/vouchers/create
+Content-Type: application/json
+
+{
+  "code": "VALENTINE2025",
+  "description": "Giảm giá Valentine 2025",
+  "discount_type": "percent",
+  "discount_value": 15,
+  "min_order_amount": 1000000,
+  "max_uses": 100,
+  "valid_from": "2024-12-01",
+  "valid_to": "2025-02-28",
+  "is_active": true
+}
+
+### Test kiểm tra voucher
+POST http://localhost:3000/api/v1/admin/orders/check-voucher
+Content-Type: application/json
+
+{
+  "voucher_code": "VALENTINE2025",
+  "total_amount": 2000000
+}
+
+### Test tạo order với voucher (khách hàng mới)
+POST http://localhost:3000/api/v1/admin/orders/create-with-voucher
+Content-Type: application/json
+
+{
+  "event_date": "2025-02-14",
+  "guest_count": 80,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Phạm Thị D",
+    "email": "phamthid@email.com",
+    "phoneNumber": "0147258369",
+    "address": "321 Đường GHI, Quận 4, TP.HCM"
+  },
+  "wedding_package_id": 1,
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 1
+    }
+  ],
+  "voucher_code": "VALENTINE2025",
+  "notes": "Đặt tiệc Valentine với voucher giảm giá"
+}
+
+### Test lấy tất cả orders
+GET http://localhost:3000/api/v1/admin/orders/
+
+### Test lấy order theo ID
+GET http://localhost:3000/api/v1/admin/orders/1
+
+### Test lấy orders theo user ID
+GET http://localhost:3000/api/v1/admin/orders/user/1
+
+### Test lấy orders theo status
+GET http://localhost:3000/api/v1/admin/orders/status/pending
+
+### Test cập nhật status order
+PUT http://localhost:3000/api/v1/admin/orders/update-status/1
+Content-Type: application/json
+
+{
+  "status": "confirmed"
+}
+
+### Test lấy thống kê orders
+GET http://localhost:3000/api/v1/admin/orders/statistics
+
+### Test lấy orders theo khoảng thời gian
+GET http://localhost:3000/api/v1/admin/orders/date-range?startDate=2024-12-01&endDate=2024-12-31
+
+### Test lấy tất cả vouchers
+GET http://localhost:3000/api/v1/admin/vouchers/
+
+### Test lấy voucher theo code
+GET http://localhost:3000/api/v1/admin/vouchers/code/VALENTINE2025
+
+### Test tạo voucher giảm giá cố định
+POST http://localhost:3000/api/v1/admin/vouchers/create
+Content-Type: application/json
+
+{
+  "code": "NEWYEAR2025",
+  "description": "Giảm giá Tết 2025 - 500k",
+  "discount_type": "amount",
+  "discount_value": 500000,
+  "min_order_amount": 2000000,
+  "max_uses": 50,
+  "valid_from": "2024-12-20",
+  "valid_to": "2025-01-31",
+  "is_active": true
+}
+
+### Test order với voucher giảm giá cố định
+POST http://localhost:3000/api/v1/admin/orders/create-with-voucher
+Content-Type: application/json
+
+{
+  "event_date": "2025-01-15",
+  "guest_count": 120,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Hoàng Văn E",
+    "email": "hoangvane@email.com",
+    "phoneNumber": "0258147963",
+    "address": "654 Đường JKL, Quận 5, TP.HCM"
+  },
+  "wedding_package_id": 1,
+  "service_id": 1,
+  "voucher_code": "NEWYEAR2025",
+  "notes": "Đặt tiệc Tết với voucher giảm 500k"
+}
+
+### ===== API IN DỮ LIỆU ORDERS =====
+
+### Test in tất cả orders
+GET http://localhost:3000/api/v1/admin/orders/print
+
+### Test in orders theo status
+GET http://localhost:3000/api/v1/admin/orders/print?status=pending
+
+### Test in orders theo khoảng thời gian
+GET http://localhost:3000/api/v1/admin/orders/print?startDate=2024-12-01&endDate=2025-12-31
+
+### Test in orders theo user ID
+GET http://localhost:3000/api/v1/admin/orders/print?userId=2
+
+### Test in orders với nhiều filter
+GET http://localhost:3000/api/v1/admin/orders/print?status=pending&startDate=2024-12-01&endDate=2025-12-31
+
+### Test in orders đã hoàn thành
+GET http://localhost:3000/api/v1/admin/orders/print?status=completed
+
+### ===== TEST ORDERS VỚI SERVICE =====
+
+### Test tạo order với service (khách hàng mới)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "event_date": "2024-12-28",
+  "guest_count": 40,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Võ Thị F",
+    "email": "vothif@email.com",
+    "phoneNumber": "0741852963",
+    "address": "987 Đường MNO, Quận 6, TP.HCM"
+  },
+  "service_id": 1,
+  "notes": "Đặt dịch vụ trang trí"
+}
+
+### Test tạo order mixed (wedding package + service + dishes)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "event_date": "2025-01-20",
+  "guest_count": 150,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Đặng Văn G",
+    "email": "dangvang@email.com",
+    "phoneNumber": "0852963741",
+    "address": "159 Đường PQR, Quận 8, TP.HCM"
+  },
+  "wedding_package_id": 1,
+  "service_id": 1,
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 3
+    }
+  ],
+  "notes": "Combo: gói cưới + dịch vụ + món đặc biệt"
+}
+
+### Test tạo order siêu mixed (wedding package + service + dishes)
+POST http://localhost:3000/api/v1/admin/orders/create
+Content-Type: application/json
+
+{
+  "event_date": "2025-02-01",
+  "guest_count": 250,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Bùi Thị H",
+    "email": "buithih@email.com",
+    "phoneNumber": "0963741852",
+    "address": "753 Đường STU, Quận 9, TP.HCM"
+  },
+  "wedding_package_id": 1,
+  "service_id": 1,
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 2
+    },
+    {
+      "dish_id": 2,
+      "quantity": 1
+    }
+  ],
+  "notes": "Combo siêu đầy đủ: gói cưới + dịch vụ + món thêm"
+}
+
+### ===== API LẤY THÔNG TIN SERVICE =====
+
+### Test lấy service theo service_id
+GET http://localhost:3000/api/v1/admin/orders/service/1
+
+### Test lấy service từ order_id
+GET http://localhost:3000/api/v1/admin/orders/service/order/1
+
+### Test lấy service từ order không có service
+GET http://localhost:3000/api/v1/admin/orders/service/order/999
+
+### Test lấy service không tồn tại
+GET http://localhost:3000/api/v1/admin/orders/service/999
+
+### ===== TEST ORDER VỚI VOUCHER =====
+
+### Test order siêu mixed với voucher
+POST http://localhost:3000/api/v1/admin/orders/create-with-voucher
+Content-Type: application/json
+
+{
+  "event_date": "2025-02-01",
+  "guest_count": 250,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Bùi Thị H",
+    "email": "buithih@email.com",
+    "phoneNumber": "0963741852",
+    "address": "753 Đường STU, Quận 9, TP.HCM"
+  },
+  "wedding_package_id": 1,
+  "service_id": 1,
+  "dishes": [
+    {
+      "dish_id": 1,
+      "quantity": 2
+    },
+    {
+      "dish_id": 2,
+      "quantity": 1
+    }
+  ],
+  "voucher_code": "VALENTINE2025",
+  "notes": "Combo siêu đầy đủ với voucher: gói cưới + dịch vụ + món thêm"
+}
+
+### Test kiểm tra voucher với tổng tiền cao (wedding + service + dishes)
+POST http://localhost:3000/api/v1/admin/orders/check-voucher
+Content-Type: application/json
+
+{
+  "voucher_code": "VALENTINE2025",
+  "total_amount": 5000000
+}
+
+### Test order chỉ service với voucher
+POST http://localhost:3000/api/v1/admin/orders/create-with-voucher
+Content-Type: application/json
+
+{
+  "event_date": "2025-02-10",
+  "guest_count": 50,
+  "discount_amount": 0,
+  "status": "pending",
+  "customer": {
+    "username": "Nguyễn Văn I",
+    "email": "nguyenvani@email.com",
+    "phoneNumber": "0123987654",
+    "address": "321 Đường VWX, Quận 10, TP.HCM"
+  },
+  "service_id": 1,
+  "voucher_code": "NEWYEAR2025",
+  "notes": "Đặt dịch vụ với voucher Tết"
+}
