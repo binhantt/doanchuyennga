@@ -25,6 +25,7 @@ import { useModal } from "../hooks/UserModal";
 import { h, onMounted, ref, computed, watch } from "vue";
 import { usePagination } from "../../../hooks/usePagination";
 import Image from "../../../components/common/bard/Image.vue";
+import TruncatedText from "../../../components/common/TruncatedText.vue";
 const productsStore = useProductsStore();
 onMounted(async () => {
     await productsStore.fetchProducts();
@@ -37,7 +38,15 @@ const { pagination, paginatedData, handlePageChange } = usePagination(productsDa
 const columns = [
   { title: "ID", dataIndex: "id", key: "id" },
   { title: "Tên sản phẩm", dataIndex: "name", key: "name" },
-  { title: "Mô tả", dataIndex: "description", key: "description" },
+  { 
+    title: "Mô tả", 
+    dataIndex: "description", 
+    key: "description",
+    customRender: ({ text }: { text: string }) => {
+      const shortText = text ? (text.length > 30 ? text.substring(0, 30) + '...' : text) : 'Không có mô tả';
+      return h('span', { title: text }, shortText);
+    }
+  },
   { title: "Danh mục", dataIndex: "category_name", key: "category" },
 
   {title : "ảnh ", dataIndex: "image_url", key: "image_url",  // Sửa từ "image" sang "image_url"
@@ -136,6 +145,58 @@ const handleDelete = async (id : any) => {
       console.log('Hủy xóa');
     },
   });
+};
+
+// Hàm in dữ liệu
+const printData = () => {
+  const printContent = document.getElementById('printTemplate')?.innerHTML;
+  if (!printContent) {
+    message.error('Không thể tạo nội dung in');
+    return;
+  }
+
+  const printWindow = window.open('', '_blank');
+  if (!printWindow) {
+    message.error('Không thể mở cửa sổ in');
+    return;
+  }
+
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Danh sách sản phẩm</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        .text-center { text-align: center; }
+        .mb-6 { margin-bottom: 24px; }
+        .mt-6 { margin-top: 24px; }
+        .text-2xl { font-size: 24px; }
+        .font-bold { font-weight: bold; }
+        .text-gray-600 { color: #666; }
+        .text-sm { font-size: 14px; }
+        @media print {
+          body { margin: 0; }
+          .no-print { display: none; }
+        }
+      </style>
+    </head>
+    <body>
+      ${printContent}
+    </body>
+    </html>
+  `);
+
+  printWindow.document.close();
+  printWindow.focus();
+  
+  setTimeout(() => {
+    printWindow.print();
+    printWindow.close();
+  }, 250);
 };
 
 // Watch for data changes to update total

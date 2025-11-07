@@ -43,16 +43,14 @@ const menuItems: SidebarItemType[] = [
       { name: "Dịch vụ", icon: ICONS.Products, path: "/admin/dashboard/products/services" }
     ]
   },
+
   { name: "Đơn hàng",
      icon: ICONS.Orders, 
-     path: "",
-      children: [
-      { name: "Món ăn", icon: ICONS.Orders, path: "/admin/dashboard/orders/food" },
-      { name: "Dịch vụ", icon: ICONS.Orders, path: "/admin/dashboard/orders/services" }
-    ]
+     path: "/admin/dashboard/orders"
    },
    {name : "Mã giảm giá", icon: ICONS.Coupon, path: "/admin/dashboard/coupons"},
   { name: "Báo cáo", icon: ICONS.Reports, path: "/admin/dashboard/reports" },
+  { name: "Gói cưới", icon: ICONS.Products, path: "/wedding-packages" },
   // { name: "Đánh giá", icon: ICONS.Reviews, path: "/admin/dashboard/reviews" },
   { name: "Đăng xuất", icon: ICONS.Logout, path: "/logout" },
 ];

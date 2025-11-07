@@ -7,6 +7,7 @@ import categories from "../categories/index.router"
 import users from "../users/index.router"
 import order from "../order/index.router"
 import coupons from "../coupons/index.router"
+import weddingPackagesRoutes from "../wedding_packages/index.router"
 export default [
   {
     path: "/admin/dashboard",  
@@ -19,7 +20,8 @@ export default [
       ...categories,
       ...users,
       ...order,
-      ...coupons
+      ...coupons ,
+      ...weddingPackagesRoutes
     ]
   }
 ]

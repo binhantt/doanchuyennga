@@ -1,5 +1,4 @@
 <template>
-
   <Table
     :columns="columns"
     :data="paginatedData"
@@ -7,13 +6,20 @@
     :pagination="pagination"
     @add="() => modalStore.openModal()"
     @refresh="fetchServices"
-    @change="(pagination) => handlePageChange(pagination.current, pagination.pageSize)"
+    @change="handlePageChange"
   />
   <ServiceModal
     :isOpen="modalStore.isModalOpen"
-    :service="modalStore.editingService.value"  
-    @close="modalStore.closeModal"
+    :service="modalStore.editingService"
+    :confirmLoading="modalStore.confirmLoading"
+    @update:open="modalStore.closeModal"
     @save="handleSave"
+  />
+  <ServiceDishManagementModal
+    :isOpen="dishModalStore.isModalOpen"
+    :service="dishModalStore.selectedService"
+    @close="dishModalStore.closeModal"
+    @updated="handleDishModalUpdated"
   />
 </template>
 
@@ -21,28 +27,24 @@
 import { message, Modal } from "ant-design-vue";
 import Table from "../../../components/common/table/Table.vue";
 import ServiceModal from "./modal.vue";
-import { useModal } from "../hooks/UserModal";
-import { usePagination } from "../../../hooks/usePagination";
-import { computed, h, onMounted, ref, watch } from "vue";
+import ServiceDishManagementModal from "./ServiceDishManagementModal.vue";
 import { useServicesStore } from "../store/Store";
+import { useModal } from "../hooks/UserModal";
+import { useServiceDishModal } from "../hooks/UseServiceDishModal";
+import { h, onMounted, ref, watch } from "vue";
+import { usePagination } from "../../../hooks/usePagination";
 import Image from "../../../components/common/bard/Image.vue";
 
 const servicesStore = useServicesStore();
+onMounted(async () => {
+    await servicesStore.fetchServices();
+    servicesData.value = servicesStore.services;
+});
+
 const modalStore = useModal();
-servicesStore.fetchServices();
-
-const { pagination, paginatedData, handlePageChange } = usePagination(computed(() => servicesStore.services));
-
-watch(
-  () => servicesStore.services,
-  (newData) => {
-    pagination.value.total = newData.length;
-    if (pagination.value.current > Math.ceil(newData.length / pagination.value.pageSize)) {
-      pagination.value.current = 1;
-    }
-  },
-  { immediate: true }
-);
+const dishModalStore = useServiceDishModal();
+const servicesData = ref(servicesStore.services);
+const { pagination, paginatedData, handlePageChange } = usePagination(servicesData);  
 
 const columns = [
   { title: "ID", dataIndex: "id", key: "id" },
@@ -84,8 +86,8 @@ const columns = [
     title: "Thao tác",
     key: "actions",
     align: "center",
-    customRender: ({ record }: { record: any }) => {
-      return h(
+    customRender: ({ record }: { record: any }) =>
+      h(
         "div",
         { class: "flex justify-center gap-2" },
         [
@@ -93,25 +95,28 @@ const columns = [
             "a",
             {
               class: "text-blue-500 hover:underline cursor-pointer",
-              onClick: () => {
-                console.log('🖱️ Edit clicked, record:', record);
-                modalStore.openModal(record);
-                console.log('📂 Modal store after open:', modalStore.editingService);
-              }
+              onClick: () => modalStore.openModal(record),
             },
             "Sửa"
           ),
           h(
             "a",
             {
-              class: "text-red-500 hover:underline cursor-pointer",
+              class: "text-green-500 hover:underline cursor-pointer ml-2",
+              onClick: () => dishModalStore.openModal(record),
+            },
+            "Quản lý món ăn"
+          ),
+          h(
+            "a",
+            {
+              class: "text-red-500 hover:underline cursor-pointer ml-2",
               onClick: () => handleDelete(record.id),
             },
             "Xóa"
           ),
         ]
-      )
-    }
+      ),
   },
 ];
 
@@ -123,9 +128,8 @@ const fetchServices = async () => {
   }
 };
 
-const handleSave = async (payload: { service: any; extraData?: any }) => {
+const handleSave = async (payload: { service: any }) => {
   const { service } = payload;
-  console.log('handleSave - service:', service);
   
   try {
     if (!service.id || service.id === -1 || service.id === "") {
@@ -143,8 +147,11 @@ const handleSave = async (payload: { service: any; extraData?: any }) => {
   }
 };
 
+const handleDishModalUpdated = async () => {
+  await fetchServices();
+};
+
 const handleDelete = async (id: string) => {
-  console.log(id);
   Modal.confirm({
     title: 'Xác nhận xóa',
     content: 'Bạn có chắc chắn muốn xóa dịch vụ này không?',
@@ -155,14 +162,19 @@ const handleDelete = async (id: string) => {
       try {
         await servicesStore.deleteById(id);
         message.success('Xóa dịch vụ thành công!');
+        await fetchServices();
       } catch (error) {
         console.error('❌ Lỗi khi xóa dịch vụ:', error);
         message.error('Có lỗi xảy ra khi xóa dịch vụ');
       }
     },
-    onCancel() {
-      console.log('Hủy xóa dịch vụ');
-    },
   });
 };
+
+// Watch for data changes to update total
+watch(() => servicesStore.services, (newServices) => {
+  console.log('Services data changed:', newServices);
+  servicesData.value = newServices; // Cập nhật ref
+  pagination.value.total = newServices.length;
+}, { immediate: true, deep: true });
 </script>

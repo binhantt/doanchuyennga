@@ -1,26 +1,30 @@
-import { ref } from 'vue';
-import type { Service } from '../index';
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const useModal = () => {
+export const useModal = defineStore("serviceModal", () => {
   const isModalOpen = ref(false);
-  const editingService = ref<Service | null>(null);
+  const editingService = ref<any | null>(null);
+  const confirmLoading = ref(false);
 
-  const openModal = (service?: Service) => {
+  const openModal = (service: any | null = null) => {
+    editingService.value = service;
     isModalOpen.value = true;
-    console.log(isModalOpen)
-    editingService.value = service ? { ...service } : null;
-
   };
-   
+
   const closeModal = () => {
     isModalOpen.value = false;
-    editingService.value = null;
+    console.log("Modal closed");
+    // Đặt editingService về null sau khi modal đã đóng hoàn toàn
+    setTimeout(() => {
+      editingService.value = null;
+    }, 300);
   };
 
   return {
     isModalOpen,
     editingService,
+    confirmLoading,
     openModal,
     closeModal,
   };
-};
+});

@@ -11,6 +11,7 @@ import PackageDishController from "../Controller/PackageDishController";
 import OrderController from "../Controller/OrderController";
 import PackageController from "../Controller/PackageController";
 import ServiceControllers from "../Controller/ServicesControllers";
+import ServiceDishController from "../Controller/ServiceDishController";
 
 const router = Router();
 export const AdminRouter = buildGroupedRoutes(router, [
@@ -337,6 +338,61 @@ export const AdminRouter = buildGroupedRoutes(router, [
         method: "delete",
         path: "/delete/:id",
         handler: ServiceControllers.Delete,
+      }
+    ]
+  },
+  {
+    basePath: "/service-dishes",
+    routes: [
+      {
+        method: "get",
+        path: "/service/:serviceId",
+        handler: ServiceDishController.GetByServiceId,
+      },
+      {
+        method: "get",
+        path: "/dish/:dishId",
+        handler: ServiceDishController.GetByDishId,
+      },
+      {
+        method: "get",
+        path: "/service-with-dishes/:serviceId",
+        handler: ServiceDishController.GetServiceWithDishes,
+      },
+      {
+        method: "get",
+        path: "/all-services-with-dishes",
+        handler: ServiceDishController.GetAllServicesWithDishes,
+      },
+      {
+        method: "get",
+        path: "/:id",
+        handler: ServiceDishController.GetById,
+      },
+      {
+        method: "post",
+        path: "/create",
+        handler: ServiceDishController.Create,
+      },
+      {
+        method: "post",
+        path: "/add-multiple",
+        handler: ServiceDishController.AddMultipleDishesToService,
+      },
+      {
+        method: "post",
+        path: "/create-service-with-dishes",
+        handler: ServiceDishController.CreateServiceWithDishes,
+      },
+      {
+        method: "put",
+        path: "/update-quantity/:id",
+        handler: ServiceDishController.UpdateQuantity,
+      },
+      {
+        method: "delete",
+        path: "/delete/:id",
+        handler: ServiceDishController.Delete,
       }
     ]
   }
