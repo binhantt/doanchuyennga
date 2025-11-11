@@ -1,33 +1,61 @@
 "use client";
-import { MapPin, Phone, Mail } from "lucide-react";
 
 export default function FooterContact() {
-  const contacts = [
-    {
-      icon: <MapPin className="w-5 h-5 text-pink-400" />,
-      text: "123 Đường Lê Lợi, Quận 1, TP.HCM",
-    },
-    {
-      icon: <Phone className="w-5 h-5 text-pink-400" />,
-      text: "+84 123 456 789",
-    },
-    {
-      icon: <Mail className="w-5 h-5 text-pink-400" />,
-      text: "info@weddingparty.vn",
-    },
-  ];
-
   return (
     <div>
-      <h3 className="font-semibold text-lg mb-4 ">Liên hệ</h3>
-      <ul className="space-y-3 text-gray-300">
-        {contacts.map((c, index) => (
-          <li key={index} className="flex items-center gap-2">
-            {c.icon}
-            {c.text}
-          </li>
-        ))}
-      </ul>
+      <h4 className="text-lg font-bold text-gray-800 mb-6 flex items-center">
+        <div className="w-2 h-6 bg-gradient-to-b from-pink-600 to-rose-600 rounded-full mr-3"></div>
+        Thông tin liên hệ
+      </h4>
+      <div className="space-y-4">
+        <div className="flex items-start">
+          <div className="w-10 h-10 bg-white border border-pink-200 rounded-lg flex items-center justify-center mr-3 flex-shrink-0 shadow-sm">
+            <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <div>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              123 Đường ABC, Quận 1<br />
+              TP. Hồ Chí Minh
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-white border border-pink-200 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+            <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+          </div>
+          <a href="tel:0123456789" className="text-gray-600 hover:text-pink-600 transition-colors font-medium">
+            0123 456 789
+          </a>
+        </div>
+
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-white border border-pink-200 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+            <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <a href="mailto:info@weddingparadise.com" className="text-gray-600 hover:text-pink-600 transition-colors">
+            info@weddingparadise.com
+          </a>
+        </div>
+
+        <div className="flex items-center">
+          <div className="w-10 h-10 bg-white border border-pink-200 rounded-lg flex items-center justify-center mr-3 shadow-sm">
+            <svg className="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p className="text-gray-600 text-sm">
+            Thứ 2 - CN: 8:00 - 22:00
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

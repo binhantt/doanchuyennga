@@ -35,7 +35,7 @@ export default function WeddingPackagesPage() {
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm shadow-sm border-b border-pink-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-12 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Gói Cưới & 
@@ -48,7 +48,7 @@ export default function WeddingPackagesPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-3">

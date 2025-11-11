@@ -1,23 +1,9 @@
 "use client";
 
-import { useHydratedCartStore } from "../../cart/hooks/useCartPersistence";
+import { useCartStore } from "../../cart/store/useCartStore";
 
 export default function CartStats() {
-  const { items, isHydrated } = useHydratedCartStore();
-
-  if (!isHydrated) {
-    return (
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-white/70 rounded-lg p-2 text-center animate-pulse">
-            <div className="h-6 bg-pink-200 rounded mb-1"></div>
-            <div className="h-3 bg-pink-100 rounded mb-1"></div>
-            <div className="h-4 bg-pink-200 rounded"></div>
-          </div>
-        ))}
-      </div>
-    );
-  }
+  const { items } = useCartStore();
 
   // Count items by type
   const stats = items.reduce((acc, item) => {
