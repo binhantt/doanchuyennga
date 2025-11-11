@@ -1,4 +1,3 @@
-
 <template>
   <a-card class="mb-6 rounded-2xl shadow-sm border border-gray-100">
     <a-space align="center" class="w-full justify-between">

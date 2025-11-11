@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+
   <Table
     :columns="columns"
     :data="paginatedData"
@@ -66,7 +66,6 @@ import { useModal } from "../hooks/UserModal";
 import { h, onMounted, ref, watch } from "vue";
 import { usePagination } from "../../../hooks/usePagination";
 import Image from "../../../components/common/bard/Image.vue";
-import Header from "./Header.vue";
 
 const packagesStore = useWeddingPackagesStore();
 const modalStore = useModal();

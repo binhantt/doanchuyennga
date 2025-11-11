@@ -8,7 +8,20 @@ export function usePagination<T>(data: T[] | Ref<T[]>, defaultPageSize = 3) {
 
   // Chuẩn hóa data thành Ref
   const dataArray = ref(Array.isArray(data) ? data : unref(data)) as Ref<T[]>;
-  const currentFromQuery = Number(route.query.tab) || 1;
+  
+  // Safely parse tab from query - handle both string and object cases
+  const getPageFromQuery = (queryTab: any): number => {
+    if (typeof queryTab === 'string') {
+      const parsed = parseInt(queryTab, 10);
+      return isNaN(parsed) ? 1 : parsed;
+    }
+    if (typeof queryTab === 'number') {
+      return queryTab;
+    }
+    return 1;
+  };
+  
+  const currentFromQuery = getPageFromQuery(route.query.tab);
 
   // Pagination state
   const pagination = ref({

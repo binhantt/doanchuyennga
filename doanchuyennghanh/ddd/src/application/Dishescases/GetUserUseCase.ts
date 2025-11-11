@@ -10,6 +10,7 @@ export class GetUserUseCase {
     "d.name",
     "d.description",
     "d.price",
+    
     "d.image_url",
     "d.is_available",
     "c.name as category_name"

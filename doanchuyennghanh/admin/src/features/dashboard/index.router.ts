@@ -19,7 +19,7 @@ export default [
       ...products,
       ...categories,
       ...users,
-      ...ordersRoutes,
+      ...ordersRoutes, 
       ...coupons ,
       ...weddingPackagesRoutes
     ]

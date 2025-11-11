@@ -1,14 +1,14 @@
-import NavbarCart from "./components/NavbarCart";
-import NavbarLogo from "./components/NavbarLogo";
-import NavbarMain from "./components/NavbarMain";
-import NavbarMenu from "./components/NavbarMenu";
-import NavbarTop from "./components/NavbarTop";
+// Export all navbar features
+export { useNavbarMenu } from './Hooks/useNavbarMenu';
+export * from './types';
 
-
-export {
-  NavbarCart,
-  NavbarLogo,
-  NavbarMenu,
-  NavbarTop,
-  NavbarMain,
-};
+// Components
+export { default as Navbar } from './components/Navbar';
+export { default as NavbarTop } from './components/NavbarTop';
+export { default as NavbarMain } from './components/NavbarMain';
+export { default as NavbarLogo } from './components/NavbarLogo';
+export { default as NavbarMenu } from './components/NavbarMenu';
+export { default as NavbarCart } from './components/NavbarCart';
+export { default as NavbarSearch } from './components/NavbarSearch';
+export { default as CartPreview } from './components/CartPreview';
+export { default as CartStats } from './components/CartStats';

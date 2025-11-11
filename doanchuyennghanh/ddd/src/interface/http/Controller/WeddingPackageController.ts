@@ -164,6 +164,30 @@ class WeddingPackageController {
       });
     }
   };
+
+  GetFeatured = async (req: Request, res: Response) => {
+    try {
+      console.log("🌟 Getting featured wedding packages...");
+      
+      // Lấy 3 gói cưới có giá cao nhất (featured)
+      const featuredPackages = await db('wedding_packages')
+        .orderBy('price', 'desc')
+        .limit(3);
+      
+      console.log(`✅ Found ${featuredPackages.length} featured packages`);
+      
+      return res.status(200).json({
+        success: true,
+        data: featuredPackages
+      });
+    } catch (error: any) {
+      console.error("❌ Error getting featured packages:", error);
+      return res.status(500).json({
+        success: false,
+        error: error.message || "Internal server error"
+      });
+    }
+  };
 }
 
 const weddingPackageController = new WeddingPackageController();

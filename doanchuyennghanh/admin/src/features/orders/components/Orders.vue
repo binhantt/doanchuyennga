@@ -6,7 +6,7 @@
     :pagination="pagination"
     :show-add-button="false"
     @refresh="fetchOrders"
-    @change="handlePageChange"
+    @change="(paginationEvent) => handlePageChange(paginationEvent.current, paginationEvent.pageSize)"
   />
 
   <OrderDetailsModal
@@ -16,6 +16,8 @@
     :wedding-package-price="weddingPackagePrice"
     :service-price="servicePrice"
     :print-loading="printLoading"
+    @change="(pagination) => handlePageChange(pagination.current, pagination.pageSize)"
+
     @close="closeModal"
     @print="handlePrint"
   />
