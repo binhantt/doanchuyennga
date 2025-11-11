@@ -49,7 +49,7 @@ const menuItems: SidebarItemType[] = [
      path: "/admin/dashboard/orders"
    },
    {name : "Mã giảm giá", icon: ICONS.Coupon, path: "/admin/dashboard/coupons"},
-  { name: "Báo cáo", icon: ICONS.Reports, path: "/admin/dashboard/reports" },
+  //{ name: "Báo cáo", icon: ICONS.Reports, path: "/admin/dashboard/reports" },
   { name: "Gói cưới", icon: ICONS.Products, path: "/admin/dashboard/wedding-packages" },
   // { name: "Đánh giá", icon: ICONS.Reviews, path: "/admin/dashboard/reviews" },
   { name: "Đăng xuất", icon: ICONS.Logout, path: "/logout" },
@@ -129,4 +129,3 @@ onMounted(() => {
   updateMenuStateFromRoute(route.path);
 });
 </script>
-
