@@ -93,11 +93,7 @@ export const userRoutes = buildGroupedRoutes(router, [
         path: "/code/:code",
         handler : VoucherController.getVoucherByCode
       },
-      {
-        method: "post",  
-        path: "/check",
-        handler : OrderController.CheckVoucher
-      }
+    
     ]
   },
 

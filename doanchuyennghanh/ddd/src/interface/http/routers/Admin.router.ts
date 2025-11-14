@@ -149,26 +149,7 @@ export const AdminRouter = buildGroupedRoutes(router, [
         path: "/update-status/:id",
         handler: OrderController.UpdateStatus,
       },
-      {
-        method: "post",
-        path: "/check-voucher",
-        handler: OrderController.CheckVoucher,
-      },
-      {
-        method: "get",
-        path: "/print",
-        handler: OrderController.PrintOrders,
-      },
-      {
-        method: "get",
-        path: "/service/order/:orderId",
-        handler: OrderController.GetServiceByOrderId,
-      },
-      {
-        method: "get",
-        path: "/service/:serviceId",
-        handler: OrderController.GetServiceById,
-      }
+    
     ]
   },
   {
