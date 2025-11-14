@@ -7,12 +7,14 @@ import logoutRouter from '../features/logout/index.router'
 
 
 
+
 // Khai báo routes
 const routes = [
   { path: '/', redirect: '/login' ,  },
   ...adminRoutes,
   ...dashboardRouter,
   ...logoutRouter,
+
 
 ] 
 

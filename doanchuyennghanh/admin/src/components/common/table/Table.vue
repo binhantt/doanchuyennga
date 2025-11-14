@@ -12,7 +12,7 @@
       />
 
       <div class="flex gap-2">
-        <BaseButton type="primary" @click="$emit('add')">
+        <BaseButton v-if="showAddButton" type="primary" @click="$emit('add')">
           <PlusOutlined />
           Thêm  mới
         </BaseButton>
@@ -20,6 +20,11 @@
         <BaseButton type="default" @click="$emit('refresh')">
           <ReloadOutlined />
           Làm mới
+        </BaseButton>
+
+        <BaseButton v-if="showPrintButton" type="default" @click="$emit('print')">
+          <PrinterOutlined />
+          {{ printButtonText || ''  }}
         </BaseButton>
       </div>
     </div>
@@ -40,7 +45,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { PlusOutlined, ReloadOutlined, SearchOutlined } from "@ant-design/icons-vue";
+import { PlusOutlined, ReloadOutlined, SearchOutlined, PrinterOutlined } from "@ant-design/icons-vue";
 import BaseInput from "../input/BaseInput.vue";
 import BaseButton from "../button/BaseButton.vue";
 
@@ -56,11 +61,13 @@ const props = defineProps<{
     pageSizeOptions?: string[];
     showTotal?: (total: number, range: [number, number]) => string;
   };
+  showAddButton?: boolean;
+  showPrintButton?: boolean;
+  printButtonText?: string;
 }>();
 
-defineEmits(["add", "refresh", "change"]);
+defineEmits(["add", "refresh", "change", "print"]);
 
 const searchValue = ref("");
 </script>
-
 

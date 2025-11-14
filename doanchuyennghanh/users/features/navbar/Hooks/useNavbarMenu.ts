@@ -8,8 +8,10 @@ export const useNavbarMenu = () => {
   // Danh sách menu
   const menus = [
     { label: "Trang chủ", href: "/" },
+    { label: "Gói Cưới", href: "/wedding-packages" },
+    { label: "Dịch vụ", href: "/services" },
     { label: "Sản phẩm", href: "/products" },
-    { label: "Giới thiệu", href: "/about" },
+    { label: "Giỏ hàng", href: "/cart" },
     { label: "Liên hệ", href: "/contact" },
   ];
 

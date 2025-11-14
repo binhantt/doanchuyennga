@@ -4,7 +4,7 @@
     :data="paginatedData"
     :loading="usersStore.loading"
     :pagination="pagination"
-    @add="() => modalStore.openModal()"
+    :show-add-button="false"
     @refresh="fetchUsers"
     @change="handlePageChange"
   />

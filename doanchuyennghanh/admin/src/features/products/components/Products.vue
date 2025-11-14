@@ -3,10 +3,14 @@
     :columns="columns"
     :data="paginatedData"
     :loading="productsStore.loading"
+    :show-add-button="true"
     :pagination="pagination"
+    :showPrintButton="true"
+    :printButtonText="'In danh sách sản phẩm'"
     @add="() => modalStore.openModal()"
     @refresh="fetchProducts"
     @change="handlePageChange"
+    @print="printData"
   />
   <ProductModal
     :isOpen="modalStore.isModalOpen"
@@ -14,6 +18,42 @@
     @close="modalStore.closeModal"
     @save="handleSave"
   />
+
+  <!-- Template for printing -->
+  <div id="printTemplate" style="display: none;">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold">DANH SÁCH SẢN PHẨM</h1>
+      <p class="text-gray-600 mt-2">Ngày in: {{ new Date().toLocaleDateString('vi-VN') }}</p>
+    </div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên sản phẩm</th>
+          <th>Mô tả</th>
+          <th>Danh mục</th>
+          <th>Giá (VNĐ)</th>
+          <th>Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(product, index) in productsStore.products" :key="product.id">
+          <td class="text-center">{{ index + 1 }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description ? (product.description.length > 30 ? product.description.substring(0, 30) + '...' : product.description) : 'Không có mô tả' }}</td>
+          <td>{{ product.category_name || 'Chưa phân loại' }}</td>
+          <td class="text-center">{{ Number(product.price).toLocaleString('vi-VN') }}</td>
+          <td class="text-center">{{ product.is_available ? 'Đang bán' : 'Hết hàng' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="mt-6 text-sm text-gray-600">
+      <p>Tổng số sản phẩm: {{ productsStore.products.length }}</p>
+      <p>Tổng giá trị: {{ productsStore.products.reduce((sum, product) => sum + Number(product.price), 0).toLocaleString('vi-VN') }} ₫</p>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1,56 +1,49 @@
+import { Knex } from "knex";
 import { CreateWeddingPackageDTO } from "../dtos/Createwedding_packagesDTO";
 import { WeddingPackage } from "../../domain/entities/WeddingPackage";
-import { Knex } from "knex";
 
 export class CreateWeddingPackageUseCase {
-    constructor(private db: Knex) {}
+  constructor(private db: Knex) {}
 
-    async execute(data: CreateWeddingPackageDTO): Promise<WeddingPackage> {
-        const { 
-            name, 
-            description, 
-            price, 
-            guest_count, 
-            venue_type,
-            image_url
-        } = data;
+  async execute(data: CreateWeddingPackageDTO): Promise<WeddingPackage> {
+    try {
+      // Validate required fields
+      if (!data.name || !data.price || !data.guest_count) {
+        throw new Error('Missing required fields: name, price, guest_count');
+      }
 
-        if (!name || !price || !guest_count || !venue_type) {
-            throw new Error("Tên gói cưới, giá, số khách và loại địa điểm là bắt buộc!");
-        }
+      if (data.price <= 0) {
+        throw new Error('Price must be greater than 0');
+      }
 
-        if (price <= 0) {
-            throw new Error("Giá phải lớn hơn 0!");
-        }
+      if (data.guest_count <= 0) {
+        throw new Error('Guest count must be greater than 0');
+      }
 
-        if (guest_count <= 0) {
-            throw new Error("Số khách phải lớn hơn 0!");
-        }
+      const packageData = {
+        name: data.name.trim(),
+        description: data.description?.trim() || null,
+        price: data.price,
+        guest_count: data.guest_count,
+        venue_type: data.venue_type || 'indoor',
+        image_url: data.image_url || null
+      };
 
-        if (!['indoor', 'outdoor', 'themed'].includes(venue_type)) {
-            throw new Error("Loại địa điểm phải là: indoor, outdoor hoặc themed!");
-        }
+      const [id] = await this.db('wedding_packages').insert(packageData);
+      const newPackageData = await this.db('wedding_packages').where('id', id).first();
 
-        const [id] = await this.db("wedding_packages").insert({
-            name,
-            description,
-            price,
-            guest_count,
-            venue_type,
-            image_url
-        });
-
-        // Trả về entity WeddingPackage
-        const weddingPackage: WeddingPackage = {
-            id,
-            name,
-            description,
-            price,
-            guest_count,
-            venue_type,
-            image_url
-        };
-
-        return weddingPackage;
+      return new WeddingPackage(
+        newPackageData.id,
+        newPackageData.name,
+        newPackageData.description,
+        newPackageData.price,
+        newPackageData.guest_count,
+        newPackageData.venue_type,
+        newPackageData.image_url
+      );
+    } catch (error) {
+      console.error('Error in CreateWeddingPackageUseCase:', error);
+      throw error;
     }
+  }
 }

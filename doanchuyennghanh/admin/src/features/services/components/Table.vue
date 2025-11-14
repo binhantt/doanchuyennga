@@ -2,6 +2,7 @@
   <Table
     :columns="columns"
     :data="paginatedData"
+    :show-add-button="true"
     :loading="servicesStore.loading"
     :pagination="pagination"
     @add="() => modalStore.openModal()"

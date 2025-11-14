@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import TruncatedText from '../../../components/bard/TruncatedText.vue';
+import TruncatedText from '../../../components/common/bard/TruncatedText.vue';
 
 interface Props {
   dishes: any[];

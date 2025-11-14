@@ -8,10 +8,9 @@ export interface WeddingPackage {
   name: string;
   description?: string;
   price: number;
-  duration_hours: number;
-  max_guests: number;
+  guest_count: number;
+  venue_type: 'indoor' | 'outdoor' | 'themed';
   image_url?: string;
-  is_available: boolean;
   created_at?: string;
   updated_at?: string;
 }
@@ -37,12 +36,27 @@ export const useWeddingPackagesStore = defineStore("weddingPackages", () => {
   const createPackage = async (packageData: WeddingPackage) => {
     loading.value = true;
     try {
+      console.log("📦 Creating package with data:", packageData);
+      
+      // Validate required fields
+      if (!packageData.name) {
+        message.error("Tên gói cưới là bắt buộc");
+        return;
+      }
+
       const formData = new FormData();
-      Object.entries(packageData).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          formData.append(key, value.toString());
-        }
-      });
+      
+      // Safely append data
+      formData.append('name', packageData.name || '');
+      formData.append('description', packageData.description || '');
+      formData.append('price', (packageData.price || 0).toString());
+      formData.append('guest_count', (packageData.guest_count || 1).toString());
+      formData.append('venue_type', packageData.venue_type || 'indoor');
+      
+      // Handle image upload
+      if (packageData.image_url && typeof packageData.image_url === 'object') {
+        formData.append('image', packageData.image_url as File);
+      }
 
       const response = await api.create(formData);
       if (response.success) {

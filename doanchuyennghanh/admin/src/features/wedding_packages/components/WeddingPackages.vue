@@ -1,72 +1,58 @@
 <template>
-  <div>
-    <!-- Nút in dữ liệu -->
-    <div class="mb-4 flex justify-end">
-      <button 
-        @click="printData" 
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center gap-2"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a1 1 0 001-1v-4a1 1 0 00-1-1H9a1 1 0 00-1 1v4a1 1 0 001 1zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-        </svg>
-        In danh sách gói cưới
-      </button>
+
+  <Table
+    :columns="columns"
+    :data="paginatedData"
+    :loading="packagesStore.loading"
+    :pagination="pagination"
+    :showPrintButton="true"
+    :printButtonText="'In danh sách gói cưới'"
+    @add="() => modalStore.openModal()"
+    @refresh="fetchPackages"
+    @change="handlePageChange"
+    @print="printData"
+  />
+  
+  <WeddingPackageModal
+    :isOpen="modalStore.isModalOpen.value"
+    :package="modalStore.editingPackage.value"
+    @close="modalStore.closeModal"
+    @save="handleSave"
+  />
+
+  <!-- Template for printing -->
+  <div id="printTemplate" style="display: none;">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold">DANH SÁCH GÓI CƯỚI</h1>
+      <p class="text-gray-600 mt-2">Ngày in: {{ new Date().toLocaleDateString('vi-VN') }}</p>
     </div>
-
-    <Table
-      :columns="columns"
-      :data="paginatedData"
-      :loading="packagesStore.loading"
-      :pagination="pagination"
-      @add="() => modalStore.openModal()"
-      @refresh="fetchPackages"
-      @change="handlePageChange"
-    />
     
-    <WeddingPackageModal
-      :isOpen="modalStore.isModalOpen"
-      :package="modalStore.editingPackage"
-      @close="modalStore.closeModal"
-      @save="handleSave"
-    />
-
-    <!-- Template in ẩn -->
-    <div id="printTemplate" class="hidden">
-      <div class="print-content">
-        <div class="text-center mb-6">
-          <h1 class="text-2xl font-bold">DANH SÁCH GÓI CƯỚI</h1>
-          <p class="text-gray-600">Ngày in: {{ new Date().toLocaleDateString('vi-VN') }}</p>
-        </div>
-        
-        <table class="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="border border-gray-300 px-4 py-2 text-left">STT</th>
-              <th class="border border-gray-300 px-4 py-2 text-left">Tên gói</th>
-              <th class="border border-gray-300 px-4 py-2 text-left">Mô tả</th>
-              <th class="border border-gray-300 px-4 py-2 text-left">Giá</th>
-              <th class="border border-gray-300 px-4 py-2 text-left">Thời gian</th>
-              <th class="border border-gray-300 px-4 py-2 text-left">Số khách</th>
-              <th class="border border-gray-300 px-4 py-2 text-left">Trạng thái</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(pkg, index) in packagesStore.packages" :key="pkg.id">
-              <td class="border border-gray-300 px-4 py-2">{{ index + 1 }}</td>
-              <td class="border border-gray-300 px-4 py-2">{{ pkg.name }}</td>
-              <td class="border border-gray-300 px-4 py-2">{{ pkg.description || 'Không có mô tả' }}</td>
-              <td class="border border-gray-300 px-4 py-2">{{ pkg.price ? Number(pkg.price).toLocaleString('vi-VN') + ' ₫' : '' }}</td>
-              <td class="border border-gray-300 px-4 py-2">{{ pkg.duration_hours }} giờ</td>
-              <td class="border border-gray-300 px-4 py-2">{{ pkg.max_guests }} khách</td>
-              <td class="border border-gray-300 px-4 py-2">{{ pkg.is_available ? 'Có sẵn' : 'Không có sẵn' }}</td>
-            </tr>
-          </tbody>
-        </table>
-        
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600">Tổng số gói cưới: {{ packagesStore.packages.length }}</p>
-        </div>
-      </div>
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên gói cưới</th>
+          <th>Mô tả</th>
+          <th>Giá (VNĐ)</th>
+          <th>Số khách</th>
+          <th>Loại địa điểm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(pkg, index) in packagesStore.packages" :key="pkg.id">
+          <td class="text-center">{{ index + 1 }}</td>
+          <td>{{ pkg.name }}</td>
+          <td>{{ pkg.description ? (pkg.description.length > 30 ? pkg.description.substring(0, 30) + '...' : pkg.description) : 'Không có mô tả' }}</td>
+          <td class="text-center">{{ Number(pkg.price).toLocaleString('vi-VN') }}</td>
+          <td class="text-center">{{ pkg.guest_count }}</td>
+          <td class="text-center">{{ getVenueTypeText(pkg.venue_type) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="mt-6 text-sm text-gray-600">
+      <p>Tổng số gói cưới: {{ packagesStore.packages.length }}</p>
+      <p>Tổng giá trị: {{ packagesStore.packages.reduce((sum, pkg) => sum + Number(pkg.price), 0).toLocaleString('vi-VN') }} ₫</p>
     </div>
   </div>
 </template>
@@ -82,19 +68,24 @@ import { usePagination } from "../../../hooks/usePagination";
 import Image from "../../../components/common/bard/Image.vue";
 
 const packagesStore = useWeddingPackagesStore();
+const modalStore = useModal();
+
+console.log('🏗️ WeddingPackages component initialized');
+console.log('📊 Initial modal state:', modalStore.isModalOpen.value);
 
 onMounted(async () => {
+  console.log('🎯 Component mounted, fetching packages...');
   await packagesStore.fetchPackages();
   packagesData.value = packagesStore.packages;
+  console.log('📦 Packages loaded:', packagesStore.packages.length);
 });
 
-const modalStore = useModal();
 const packagesData = ref(packagesStore.packages);
 const { pagination, paginatedData, handlePageChange } = usePagination(packagesData);
 
 const columns = [
   { title: "ID", dataIndex: "id", key: "id" },
-  { title: "Tên gói", dataIndex: "name", key: "name" },
+  { title: "Tên gói cưới", dataIndex: "name", key: "name" },
   { 
     title: "Mô tả", 
     dataIndex: "description", 
@@ -109,7 +100,7 @@ const columns = [
     dataIndex: "image_url", 
     key: "image_url",
     customRender: ({ text }: { text: string }) =>
-      h(Image, { src: text, alt: "ảnh gói cưới", class: "w-16 h-16 rounded" })
+      h(Image, { src: text, alt: "ảnh gói cưới", class: "w-1 h-1 rounded" })
   },
   {
     title: "Giá",
@@ -119,25 +110,16 @@ const columns = [
       text ? Number(text).toLocaleString("vi-VN") + " ₫" : "",
   },
   {
-    title: "Thời gian",
-    dataIndex: "duration_hours",
-    key: "duration_hours",
-    customRender: ({ text }: { text: number }) => `${text} giờ`,
-  },
-  {
-    title: "Số khách tối đa",
-    dataIndex: "max_guests",
-    key: "max_guests",
+    title: "Số khách",
+    dataIndex: "guest_count",
+    key: "guest_count",
     customRender: ({ text }: { text: number }) => `${text} khách`,
   },
   {
-    title: "Trạng thái",
-    dataIndex: "is_available",
-    key: "is_available",
-    customRender: ({ text }: { text: boolean }) =>
-      text
-        ? h("span", { class: "text-green-600" }, "Có sẵn")
-        : h("span", { class: "text-red-500" }, "Không có sẵn"),
+    title: "Loại địa điểm",
+    dataIndex: "venue_type",
+    key: "venue_type",
+    customRender: ({ text }: { text: string }) => getVenueTypeText(text),
   },
   {
     title: "Thao tác",
@@ -168,6 +150,15 @@ const columns = [
       ),
   },
 ];
+
+const getVenueTypeText = (type: string) => {
+  const typeMap = {
+    'indoor': 'Trong nhà',
+    'outdoor': 'Ngoài trời', 
+    'themed': 'Theo chủ đề'
+  };
+  return typeMap[type as keyof typeof typeMap] || type;
+};
 
 const fetchPackages = async () => {
   try {
@@ -269,9 +260,14 @@ const printData = () => {
   }, 250);
 };
 
+// Watch modal state changes
+watch(() => modalStore.isModalOpen.value, (newValue, oldValue) => {
+  console.log('👀 Modal state changed:', { from: oldValue, to: newValue });
+}, { immediate: true });
+
 // Watch for data changes to update total
 watch(() => packagesStore.packages, (newPackages) => {
-  console.log('Wedding packages data changed:', newPackages);
+  console.log('📊 Packages data changed, count:', newPackages.length);
   packagesData.value = newPackages;
   pagination.value.total = newPackages.length;
 }, { immediate: true, deep: true });

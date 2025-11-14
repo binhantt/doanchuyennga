@@ -2,8 +2,10 @@
   <Table
     :columns="columns"
     :data="paginatedData"
+    :show-add-button="true"
     :loading="categoriesStore.loading"
     :pagination="pagination"
+    
     @add="() => modalStore.openModal()"
     @refresh="fetchCategories"
      @change="(pagination) => handlePageChange(pagination.current, pagination.pageSize)"

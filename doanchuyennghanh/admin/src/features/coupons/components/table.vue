@@ -5,6 +5,7 @@
     :loading="vouchersStore.loading"
     :pagination="pagination"
     @add="() => modalStore.openModal()"
+    :show-add-button="true"
     @refresh="fetchVouchers"
     @change="(pagination) => handlePageChange(pagination.current, pagination.pageSize)"
   />
